@@ -1,0 +1,15 @@
+export { default as Board }             from "./board/board.component";
+export { default as Cell }              from "./cell/cell.component";
+export { default as Dashboard }         from "./dashboard/dashboard.component";
+export { default as Setup }             from "./setup/setup.component";
+export { default as GameOver }          from "./game-over/game-over.component";
+export { default as MainMenu }          from "./main-menu/main-menu.component";
+export { default as Settings }          from "./settings/settings.component";
+export { default as HowToPlay }         from "./how-to-play/how-to-play.component";
+export { default as Stats }             from "./stats/stats.component";
+export { default as Achievements }      from "./achievements/achievements.component";
+export { default as AchievementToast }  from "./toast/achievement-toast.component";
+export { default as Splash }            from "./splash/splash.component";
+export { default as Auth }              from "./auth/auth.component";
+export { default as Lobby }             from "./lobby/lobby.component";
+export { default as OnlineGame }        from "./online-game/online-game.component";

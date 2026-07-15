@@ -1,0 +1,32 @@
+.achievement-toast {
+  position: fixed;
+  top: calc(16px + var(--safe-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(20, 93, 160, 0.95), rgba(46, 196, 182, 0.95));
+  color: #04121f;
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-strong);
+  max-width: 90vw;
+}
+
+.achievement-toast__icone {
+  font-size: 1.6rem;
+}
+
+.achievement-toast strong {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.achievement-toast p {
+  font-size: 0.85rem;
+  font-weight: 700;
+}

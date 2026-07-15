@@ -1,0 +1,86 @@
+#auth {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.auth__cartao {
+  max-width: 400px;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth__cartao h2 {
+  color: var(--text-primary);
+  font-size: 1.3rem;
+}
+
+.auth__descricao {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.auth__aviso {
+  background: rgba(255, 210, 63, 0.12);
+  border: 1px solid rgba(255, 210, 63, 0.4);
+  color: var(--gold);
+  font-size: 0.75rem;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth__form input {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.auth__form input:focus {
+  outline: 2px solid var(--turquoise);
+}
+
+.auth__erro {
+  color: var(--red);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.auth__trocar-modo {
+  background: none;
+  border: none;
+  color: var(--turquoise-soft);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.auth__separador {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  position: relative;
+}
+
+.auth__voltar {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-top: 4px;
+}

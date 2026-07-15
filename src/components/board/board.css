@@ -1,0 +1,50 @@
+.board-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.board-wrapper__titulo {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.board-wrapper--destaque .board {
+  box-shadow: 0 0 0 2px var(--turquoise), var(--shadow-strong);
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px;
+  border-radius: var(--radius-lg);
+}
+
+.board__linha {
+  display: flex;
+  gap: 3px;
+}
+
+.board__rotulo {
+  width: clamp(14px, 4vw, 20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.board__celula-vazia {
+  width: clamp(14px, 4vw, 20px);
+  flex-shrink: 0;
+}
+
+.board__linha--cabecalho .board__rotulo {
+  width: clamp(24px, 8.6vw, 34px);
+}

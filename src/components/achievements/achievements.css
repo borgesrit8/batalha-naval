@@ -1,0 +1,67 @@
+#achievements {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.achievements__cartao {
+  max-width: 480px;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.achievements__cartao h2 {
+  color: var(--text-primary);
+  font-size: 1.3rem;
+}
+
+.achievements__resumo {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-top: -10px;
+}
+
+.achievements__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.achievements__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  opacity: 0.55;
+}
+
+.achievements__item--desbloqueada {
+  opacity: 1;
+  border-color: var(--turquoise-soft);
+}
+
+.achievements__icone {
+  font-size: 1.6rem;
+}
+
+.achievements__item strong {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.achievements__item p {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  margin-top: 2px;
+}

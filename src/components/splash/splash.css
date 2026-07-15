@@ -1,0 +1,39 @@
+#splash {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.splash__icone {
+  font-size: 3rem;
+  animation: flutuar 2.4s ease-in-out infinite;
+}
+
+.splash__titulo {
+  color: var(--text-primary);
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+}
+
+.splash__barra {
+  width: 200px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.splash__barra-preenchimento {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ocean-light), var(--turquoise));
+  transition: width 0.1s linear;
+}
+
+.splash__texto {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}

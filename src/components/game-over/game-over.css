@@ -1,0 +1,117 @@
+#game-over {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.game-over__cartao {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 32px;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.game-over__cartao--vitoria {
+  box-shadow: 0 0 0 2px var(--gold), var(--shadow-strong);
+}
+
+.game-over__cartao--derrota {
+  box-shadow: 0 0 0 2px var(--red), var(--shadow-strong);
+}
+
+.game-over__emblema {
+  font-size: 3rem;
+  animation: flutuar 3s ease-in-out infinite;
+}
+
+.game-over__cartao h2 {
+  font-size: 1.6rem;
+  color: var(--text-primary);
+}
+
+.game-over__subtitulo {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.game-over__stats {
+  display: flex;
+  gap: 18px;
+  margin-top: 6px;
+}
+
+.game-over__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 70px;
+}
+
+.game-over__stat strong {
+  font-size: 1.3rem;
+  color: var(--turquoise-soft);
+}
+
+.game-over__stat span {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.game-over__conquistas {
+  width: 100%;
+  border-top: 1px solid var(--glass-border);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.game-over__conquista {
+  font-size: 0.85rem;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.game-over__acoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.game-over__confettis {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.game-over__confetti {
+  position: absolute;
+  top: -10%;
+  left: calc(var(--i) * 5.5%);
+  width: 6px;
+  height: 12px;
+  background: hsl(calc(var(--i) * 20), 90%, 60%);
+  animation: cair 2.4s linear infinite;
+  animation-delay: calc(var(--i) * 0.12s);
+  opacity: 0.85;
+}
+
+@keyframes cair {
+  0% { transform: translateY(-10%) rotate(0deg); }
+  100% { transform: translateY(420%) rotate(360deg); }
+}

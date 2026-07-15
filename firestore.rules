@@ -1,0 +1,48 @@
+rules_version = '2';
+
+// ============================================================
+// REGRAS DE SEGURANÇA DO FIRESTORE
+// Copia isto para a aba "Regras" da consola do Firestore (ou
+// publica com `firebase deploy --only firestore:rules` se
+// usares a Firebase CLI).
+// ============================================================
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Progresso do jogador — só o próprio pode ler/escrever o seu perfil.
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /rooms/{codigo} {
+      function souJogador() {
+        return request.auth != null &&
+          (resource.data.jogadorA.uid == request.auth.uid ||
+           (resource.data.jogadorB != null && resource.data.jogadorB.uid == request.auth.uid));
+      }
+
+      // Qualquer utilizador autenticado pode criar uma sala nova ou
+      // consultá-la para tentar entrar com um código.
+      allow create: if request.auth != null;
+      allow read: if request.auth != null;
+
+      // Só os dois jogadores da sala podem alterar o estado do jogo
+      // (entrar, marcar pronto, avançar de turno, terminar o jogo).
+      allow update: if souJogador();
+
+      // Frota de cada jogador: privada, só o dono lê/escreve a sua.
+      match /frotas/{uid} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+
+      // Tiros disparados: qualquer um dos dois jogadores pode ler (para
+      // ver o histórico); só o atirador cria o pedido e só o adversário
+      // (quem NÃO disparou) pode preencher o resultado.
+      match /jogadas/{jogadaId} {
+        allow read: if request.auth != null;
+        allow create: if request.auth != null && request.resource.data.atirador == request.auth.uid;
+        allow update: if request.auth != null && resource.data.atirador != request.auth.uid;
+      }
+    }
+  }
+}

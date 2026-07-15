@@ -1,0 +1,129 @@
+.cell {
+  --tamanho-cell: clamp(24px, 8.6vw, 34px);
+  width: var(--tamanho-cell);
+  height: var(--tamanho-cell);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(145deg, #0f3a63, #0a2544);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  transition: transform 0.12s ease, filter 0.12s ease, box-shadow 0.12s ease;
+}
+
+.cell--clicavel {
+  cursor: pointer;
+}
+
+.cell--clicavel:hover {
+  filter: brightness(1.35);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 14px rgba(31, 127, 201, 0.45);
+  z-index: 2;
+}
+
+.cell--clicavel:active {
+  transform: scale(0.94);
+}
+
+.cell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.05) 0px,
+    rgba(255, 255, 255, 0.05) 2px,
+    transparent 2px,
+    transparent 8px
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.cell--navio {
+  background: linear-gradient(145deg, #2ec4b6, #1c8a80);
+}
+
+.cell--falhado {
+  background: linear-gradient(145deg, #24425c, #16293b);
+  cursor: default;
+}
+
+.cell--acerto {
+  background: linear-gradient(145deg, #ff6b35, #b8371a);
+  cursor: default;
+  animation: acertoFlash 0.4s ease;
+}
+
+.cell--afundado {
+  background: linear-gradient(145deg, #7a0f16, #3d0509);
+}
+
+.cell--radar {
+  outline: 3px solid var(--gold, #ffd23f);
+  outline-offset: -3px;
+  animation: pulsar 1.1s infinite;
+}
+
+@keyframes acertoFlash {
+  0% { filter: brightness(2.4); }
+  100% { filter: brightness(1); }
+}
+
+.cell__splash {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.cell__splash::before,
+.cell__splash::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(201, 214, 223, 0.9);
+  transform: translate(-50%, -50%);
+  animation: splashAnel 0.6s ease-out both;
+}
+.cell__splash::after {
+  animation-delay: 0.12s;
+}
+@keyframes splashAnel {
+  0% { width: 4px; height: 4px; opacity: 0.9; }
+  100% { width: 140%; height: 140%; opacity: 0; }
+}
+
+.cell__explosao {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cell__explosao-nucleo {
+  width: 55%;
+  height: 55%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff6cc 0%, var(--gold, #ffd23f) 35%, var(--orange, #ff6b35) 70%, transparent 100%);
+  animation: explodir 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+@keyframes explodir {
+  0% { transform: scale(0.2); opacity: 1; }
+  60% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.95; }
+}
+
+.cell__afundado-icone {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--tamanho-cell) * 0.5);
+  animation: surgir 0.4s ease both;
+}
