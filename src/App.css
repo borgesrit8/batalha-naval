@@ -8,31 +8,103 @@
   padding-bottom: var(--safe-bottom);
 }
 
-.jogo-cabecalho {
-  text-align: center;
-  padding: 18px 16px 8px;
-}
-
-.jogo-cabecalho h1 {
-  color: var(--text-primary);
-  font-size: 1.15rem;
-  letter-spacing: 0.03em;
-}
-
-.jogo-cabecalho p {
-  color: var(--text-muted);
-  font-size: 0.78rem;
-  margin-top: 2px;
-}
-
-#jogo-layout {
+/* Ecrã de jogo: barra de estado em cima e um só tabuleiro de cada vez */
+#jogo {
   flex: 1;
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 8px;
+  --tamanho-cell-jogo: clamp(22px, min(8vw, 5dvh), 38px);
+}
+
+#jogo .cell {
+  --tamanho-cell: var(--tamanho-cell-jogo);
+}
+
+#jogo .board__linha--cabecalho .board__rotulo {
+  width: var(--tamanho-cell-jogo);
+}
+
+.jogo-alvo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.jogo-alvo__cabecalho {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.jogo-alvo__cabecalho h2 {
+  font-size: 1.05rem;
+  color: var(--text-primary);
+}
+
+.jogo-alvo--inimigo .jogo-alvo__cabecalho h2 {
+  color: var(--turquoise-soft);
+}
+
+.jogo-alvo--meu .jogo-alvo__cabecalho h2 {
+  color: var(--orange);
+}
+
+.jogo-alvo__frota {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Troca suave de tabuleiro quando muda a vez */
+.jogo-alvo__tabuleiro {
+  animation: trocarTabuleiro 0.35s ease both;
+}
+
+@keyframes trocarTabuleiro {
+  from { opacity: 0; transform: translateX(16px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+.jogo-alvo--meu .board {
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.55), var(--shadow-strong);
+}
+
+.jogo-mensagem {
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  padding: 12px 16px 32px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-muted);
+  animation: surgir 0.25s ease both;
+}
+
+.jogo-mensagem--acerto {
+  color: #04121f;
+  background: var(--gold);
+}
+
+.jogo-mensagem--afundado {
+  color: var(--white);
+  background: var(--red);
+}
+
+.jogo-mensagem--agua {
+  color: var(--text-primary);
+  background: var(--surface-strong);
 }
 
 .rodape-global {
@@ -41,11 +113,4 @@
   font-size: 0.68rem;
   color: var(--text-muted);
   opacity: 0.6;
-}
-
-@media (max-width: 760px) {
-  #jogo-layout {
-    flex-direction: column;
-    align-items: center;
-  }
 }

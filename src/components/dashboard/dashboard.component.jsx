@@ -10,6 +10,7 @@ function Dashboard({
   combustivel,
   radarDisponivel,
   jogoAtivo,
+  turnoId,
   turnoSegundos,
   onTempoEsgotado,
   onSegundos,
@@ -19,7 +20,7 @@ function Dashboard({
 
   useEffect(() => {
     setSegundos(turnoSegundos);
-  }, [vezDoJogador, turnoSegundos]);
+  }, [vezDoJogador, turnoId, turnoSegundos]);
 
   useEffect(() => {
     if (!jogoAtivo || !vezDoJogador) return;
@@ -48,45 +49,51 @@ function Dashboard({
   );
 
   return (
-    <div id="dashboard" className="vidro animar-entrada">
-      <div className={"dashboard__turno" + (vezDoJogador ? " dashboard__turno--jogador" : " dashboard__turno--pc")}>
-        <span className="dashboard__turno-luz" />
-        {vezDoJogador ? `Vez de ${nomeJogador}` : "O Computador está a mirar…"}
-      </div>
+    <div id="dashboard" className="vidro">
+      <div className="dashboard__topo">
+        <div className={"dashboard__turno" + (vezDoJogador ? " dashboard__turno--jogador" : " dashboard__turno--pc")}>
+          <span className="dashboard__turno-luz" />
+          <span className="dashboard__turno-texto">
+            {vezDoJogador ? `Vez de ${nomeJogador}` : "Vez do computador"}
+          </span>
+        </div>
 
-      <div className="dashboard__anel" style={anelEstilo} aria-hidden="true">
-        <div className="dashboard__anel-interior">
-          <strong>{vezDoJogador ? segundos : "—"}</strong>
-          <span>seg</span>
+        <div className="dashboard__anel" style={anelEstilo} aria-label={`${segundos} segundos`}>
+          <div className="dashboard__anel-interior">
+            <strong>{vezDoJogador ? segundos : "—"}</strong>
+          </div>
         </div>
       </div>
 
-      <div className="dashboard__bloco">
-        <div className="dashboard__linha-label">
-          <span>⛽ Combustível</span>
-          <span>{combustivel}/{COMBUSTIVEL_INICIAL}</span>
+      <div className="dashboard__base">
+        <div className="dashboard__bloco">
+          <div className="dashboard__linha-label">
+            <span>⛽ Combustível</span>
+            <span>{combustivel}/{COMBUSTIVEL_INICIAL}</span>
+          </div>
+          <div className="dashboard__barra">
+            <div
+              className="dashboard__barra-preenchimento"
+              style={{
+                width: percentCombustivel + "%",
+                background:
+                  percentCombustivel > 40
+                    ? "linear-gradient(90deg, var(--ocean-light), var(--turquoise))"
+                    : "linear-gradient(90deg, var(--orange), var(--red))",
+              }}
+            />
+          </div>
         </div>
-        <div className="dashboard__barra">
-          <div
-            className="dashboard__barra-preenchimento"
-            style={{
-              width: percentCombustivel + "%",
-              background:
-                percentCombustivel > 40
-                  ? "linear-gradient(90deg, var(--ocean-light), var(--turquoise))"
-                  : "linear-gradient(90deg, var(--orange), var(--red))",
-            }}
-          />
-        </div>
-      </div>
 
-      <button
-        className="btn btn-secundaria dashboard__botao"
-        onClick={onRadarAtivado}
-        disabled={!radarDisponivel || !vezDoJogador}
-      >
-        📡 {radarDisponivel ? "Ativar Radar" : "Radar indisponível"}
-      </button>
+        <button
+          className={"btn btn-secundaria dashboard__botao" + (radarDisponivel && vezDoJogador ? " dashboard__botao--pronto" : "")}
+          onClick={onRadarAtivado}
+          disabled={!radarDisponivel || !vezDoJogador}
+          title={radarDisponivel ? "Ativar Radar" : "Radar indisponível"}
+        >
+          📡 Radar
+        </button>
+      </div>
     </div>
   );
 }

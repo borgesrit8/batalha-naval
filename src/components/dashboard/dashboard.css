@@ -1,15 +1,29 @@
 #dashboard {
+  width: 100%;
   border-radius: var(--radius-lg);
-  padding: 20px;
-  min-width: 200px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.dashboard__topo,
+.dashboard__base {
+  display: flex;
   align-items: center;
-  gap: 14px;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dashboard__turno-texto {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dashboard__turno {
-  font-size: 0.85rem;
+  min-width: 0;
+  font-size: 0.95rem;
   font-weight: 600;
   text-align: center;
   display: flex;
@@ -37,8 +51,9 @@
 }
 
 .dashboard__anel {
-  width: 92px;
-  height: 92px;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -47,8 +62,8 @@
 }
 
 .dashboard__anel-interior {
-  width: 74px;
-  height: 74px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: var(--navy-deep);
   display: flex;
@@ -59,7 +74,7 @@
 }
 
 .dashboard__anel-interior strong {
-  font-size: 1.4rem;
+  font-size: 1rem;
   line-height: 1;
 }
 
@@ -69,7 +84,7 @@
 }
 
 .dashboard__bloco {
-  width: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -84,7 +99,7 @@
 
 .dashboard__barra {
   width: 100%;
-  height: 10px;
+  height: 8px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
   overflow: hidden;
@@ -97,7 +112,13 @@
 }
 
 .dashboard__botao {
-  width: 100%;
+  flex-shrink: 0;
   font-size: 0.8rem;
-  padding: 10px 12px;
+  padding: 9px 14px;
+}
+
+.dashboard__botao--pronto {
+  background: linear-gradient(135deg, var(--gold), var(--orange));
+  color: #04121f;
+  animation: pulsar 1.2s infinite;
 }

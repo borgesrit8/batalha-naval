@@ -127,3 +127,39 @@
   font-size: calc(var(--tamanho-cell) * 0.5);
   animation: surgir 0.4s ease both;
 }
+
+/* Cruz desenhada nas células onde o tiro falhou */
+.cell__cruz {
+  position: absolute;
+  inset: 0;
+  display: block;
+  z-index: 1;
+}
+.cell__cruz::before,
+.cell__cruz::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 62%;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--light-gray);
+  transform: translate(-50%, -50%) rotate(45deg) scaleX(0);
+  animation: desenharCruz 0.25s ease-out forwards;
+}
+.cell__cruz::after {
+  transform: translate(-50%, -50%) rotate(-45deg) scaleX(0);
+  animation-name: desenharCruz2;
+  animation-delay: 0.12s;
+}
+@keyframes desenharCruz {
+  to { transform: translate(-50%, -50%) rotate(45deg) scaleX(1); }
+}
+@keyframes desenharCruz2 {
+  to { transform: translate(-50%, -50%) rotate(-45deg) scaleX(1); }
+}
+[data-tema="claro"] .cell__cruz::before,
+[data-tema="claro"] .cell__cruz::after {
+  background: #f5f9fc;
+}

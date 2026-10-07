@@ -137,3 +137,24 @@ export function calcularPrecisao(tirosDisparados, tirosCertos) {
   if (tirosDisparados === 0) return 0;
   return Math.round((tirosCertos / tirosDisparados) * 100);
 }
+
+// Conta os navios de um tabuleiro e quantos ainda não foram afundados.
+export function contarNavios(tab) {
+  const porAfundar = new Set();
+  const todos = new Set();
+  for (const linha of tab) {
+    for (const cel of linha) {
+      if (cel.navio === null) continue;
+      todos.add(cel.navio);
+      if (!cel.atingida) porAfundar.add(cel.navio);
+    }
+  }
+  return { total: todos.size, restantes: porAfundar.size };
+}
+
+// Tamanho (n.º de células) do navio com este id.
+export function tamanhoNavio(tab, id) {
+  let n = 0;
+  for (const linha of tab) for (const cel of linha) if (cel.navio === id) n++;
+  return n;
+}

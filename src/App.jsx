@@ -26,6 +26,7 @@ import {
   DIFICULDADES,
   MOEDAS_POR_VITORIA,
   MOEDAS_POR_DERROTA,
+  NOMES_NAVIOS,
 } from "./constants";
 import {
   copiarTabuleiro,
@@ -35,6 +36,9 @@ import {
   celulasAdjacentes,
   encontrarAreaRadar,
   calcularPrecisao,
+  navioAfundadoNestaCelula,
+  contarNavios,
+  tamanhoNavio,
 } from "./utils/tabuleiro";
 import { useEstatisticas } from "./hooks/useEstatisticas";
 import { useConquistas } from "./hooks/useConquistas";
@@ -56,6 +60,11 @@ const FASES = {
   LOBBY: "lobby",
   JOGO_ONLINE: "jogoOnline",
 };
+
+// Devolve true com a probabilidade indicada (0 a 1).
+function sortear(probabilidade) {
+  return Math.random() < probabilidade;
+}
 
 function JogoInterno() {
   const { definicoes } = useDefinicoes();
@@ -120,6 +129,14 @@ function JogoInterno() {
   const [novasConquistas, setNovasConquistas] = useState([]);
   const jogoRegistadoRef = useRef(false);
 
+  // Pausa entre jogadas (para se ver o resultado do tiro antes de mudar de ecrã),
+  // n.º do turno (reinicia o cronómetro quando se joga outra vez) e mensagem do último tiro.
+  const [aguardar, setAguardar] = useState(false);
+  const [turnoId, setTurnoId] = useState(0);
+  const [mensagem, setMensagem] = useState(null);
+  // Cada partida tem um id; temporizadores de uma partida antiga são ignorados.
+  const partidaRef = useRef(0);
+
   const dificuldadeAtual = DIFICULDADES[definicoes.dificuldade] || DIFICULDADES.normal;
 
   function abrirOverlay(destino) {
@@ -143,11 +160,43 @@ function JogoInterno() {
     setModoIA("aleatorio");
     setAlvosIA([]);
     setNovasConquistas([]);
+    setAguardar(false);
+    setTurnoId(0);
+    setMensagem({ tipo: "info", texto: "Escolhe uma célula para disparar" });
+    partidaRef.current += 1;
     jogoRegistadoRef.current = false;
   }
 
+  // Agenda uma ação só se a partida ainda for a mesma.
+  function depois(ms, fn) {
+    const id = partidaRef.current;
+    setTimeout(() => {
+      if (partidaRef.current === id) fn();
+    }, ms);
+  }
+
+  function descreverTiro(tab, l, c, sujeito) {
+    const cel = tab[l][c];
+    if (!cel.navio) return { tipo: "agua", texto: sujeito === "jogador" ? "Água! Vez do computador" : "O computador falhou" };
+    if (navioAfundadoNestaCelula(tab, l, c)) {
+      const nome = NOMES_NAVIOS[tamanhoNavio(tab, cel.navio)] || "Navio";
+      return {
+        tipo: "afundado",
+        texto: sujeito === "jogador" ? `${nome} afundado! Joga outra vez` : `O computador afundou o teu ${nome}`,
+      };
+    }
+    return { tipo: "acerto", texto: sujeito === "jogador" ? "Acertaste! Joga outra vez" : "O computador acertou e volta a jogar" };
+  }
+
+  // Passa a vez ao computador: mostra o tabuleiro do jogador e começa a disparar.
+  function passarVezAoPC(tabJAtual, modo, alvos, jogadasAtuais) {
+    setVezDoJogador(false);
+    setMensagem({ tipo: "info", texto: "O computador está a mirar…" });
+    depois(900, () => atacarPC(tabJAtual, modo, alvos, jogadasAtuais));
+  }
+
   function handleDisparo(l, c) {
-    if (!vezDoJogador || fase !== FASES.JOGO) return;
+    if (!vezDoJogador || aguardar || fase !== FASES.JOGO) return;
 
     const novoCombustivel = combustivel - CUSTO_DISPARO;
     if (novoCombustivel <= 0) {
@@ -179,20 +228,34 @@ function JogoInterno() {
     setJogadas((j) => j + 1);
     setTirosJogador((t) => t + 1);
     if (acertou) setTirosCertosJogador((t) => t + 1);
+    setMensagem(descreverTiro(novoTab, l, c, "jogador"));
 
     if (todosAfundados(novoTab)) {
-      setVencedor(nomeJogador);
-      setFase(FASES.FIM);
+      setAguardar(true);
+      depois(900, () => {
+        setVencedor(nomeJogador);
+        setFase(FASES.FIM);
+      });
       return;
     }
 
-    setVezDoJogador(false);
-    setTimeout(() => atacarPC(novoTab, tabJogador, modoIA, alvosIA, jogadas + 1), 800);
+    if (acertou) {
+      // Acertou: continua a jogar, com o cronómetro reiniciado.
+      setTurnoId((t) => t + 1);
+      return;
+    }
+
+    // Falhou: deixa ver a cruz um instante e depois passa a vez.
+    setAguardar(true);
+    depois(1000, () => {
+      setAguardar(false);
+      passarVezAoPC(tabJogador, modoIA, alvosIA, jogadas + 1);
+    });
   }
 
-  function atacarPC(tabPCAtual, tabJAtual, modo, alvos, jogadasAtuais) {
+  function atacarPC(tabJAtual, modo, alvos, jogadasAtuais) {
     let l, c;
-    const errarPerseguicao = modo === "cacar" && alvos.length > 0 && Math.random() < dificuldadeAtual.chanceErroPerseguicao;
+    const errarPerseguicao = modo === "cacar" && alvos.length > 0 && sortear(dificuldadeAtual.chanceErroPerseguicao);
 
     if (modo === "cacar" && alvos.length > 0 && !errarPerseguicao) {
       const alvo = alvos[0];
@@ -212,32 +275,49 @@ function JogoInterno() {
     let novosAlvos = [];
 
     if (acertou) {
-      const adjacentes = celulasAdjacentes(novoTab, l, c);
-      if (adjacentes.length > 0) {
-        novoModo = "cacar";
-        novosAlvos = [...alvos.slice(1), ...adjacentes];
-      }
+      // Descarta alvos já atingidos (podem ter sido apanhados entretanto)
+      const pendentes = alvos.filter((a) => !novoTab[a.l][a.c].atingida);
+      const adjacentes = celulasAdjacentes(novoTab, l, c).filter(
+        (a) => !pendentes.some((p) => p.l === a.l && p.c === a.c)
+      );
+      novosAlvos = [...pendentes, ...adjacentes];
+      novoModo = novosAlvos.length > 0 ? "cacar" : "aleatorio";
     } else {
-      novoModo = alvos.length > 1 ? "cacar" : "aleatorio";
-      novosAlvos = alvos.slice(1);
+      novosAlvos = alvos.slice(1).filter((a) => !novoTab[a.l][a.c].atingida);
+      novoModo = novosAlvos.length > 0 ? "cacar" : "aleatorio";
     }
 
+    tocar(acertou ? "acerto" : "agua");
     setTabJogador(novoTab);
     setModoIA(novoModo);
     setAlvosIA(novosAlvos);
     setJogadas(jogadasAtuais + 1);
+    setMensagem(descreverTiro(novoTab, l, c, "pc"));
 
     if (todosAfundados(novoTab)) {
-      setVencedor("Computador");
-      setFase(FASES.FIM);
+      depois(900, () => {
+        setVencedor("Computador");
+        setFase(FASES.FIM);
+      });
       return;
     }
 
-    setVezDoJogador(true);
+    if (acertou) {
+      // O computador acertou: volta a disparar.
+      depois(1000, () => atacarPC(novoTab, novoModo, novosAlvos, jogadasAtuais + 1));
+      return;
+    }
+
+    // O computador falhou: o jogador vê a cruz e depois volta a ser a sua vez.
+    depois(1200, () => {
+      setVezDoJogador(true);
+      setTurnoId((t) => t + 1);
+      setMensagem({ tipo: "info", texto: "A tua vez! Escolhe onde disparar" });
+    });
   }
 
   function handleTempoEsgotado() {
-    if (!vezDoJogador || fase !== FASES.JOGO) return;
+    if (!vezDoJogador || aguardar || fase !== FASES.JOGO) return;
 
     const novoCombustivel = combustivel - 5;
     if (novoCombustivel <= 0) {
@@ -247,8 +327,8 @@ function JogoInterno() {
     }
 
     setCombustivel(novoCombustivel);
-    setVezDoJogador(false);
-    setTimeout(() => atacarPC(tabPC, tabJogador, modoIA, alvosIA, jogadas), 800);
+    passarVezAoPC(tabJogador, modoIA, alvosIA, jogadas);
+    setMensagem({ tipo: "agua", texto: "Tempo esgotado! Vez do computador" });
   }
 
   function handleRadar() {
@@ -304,6 +384,9 @@ function JogoInterno() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fase]);
 
+  const tabVisivel = vezDoJogador ? tabPC : tabJogador;
+  const frota = fase === FASES.JOGO ? contarNavios(tabVisivel) : { total: 0, restantes: 0 };
+
   return (
     <div id="container">
       {fase === FASES.SPLASH && <Splash onTerminar={() => setFase(FASES.MENU)} />}
@@ -339,41 +422,48 @@ function JogoInterno() {
       {fase === FASES.SETUP && <Setup onIniciar={handleIniciar} onVoltarMenu={() => setFase(FASES.MENU)} />}
 
       {fase === FASES.JOGO && (
-        <>
-          <header className="jogo-cabecalho">
-            <h1>Batalha Naval Avançada</h1>
-            <p>Dificuldade: {dificuldadeAtual.nome}</p>
-          </header>
-          <main id="jogo-layout">
-            <Board
-              titulo={"Teu tabuleiro — " + nomeJogador}
-              tabuleiro={tabJogador}
-              mostrarNavios={true}
-              radarArea={null}
-              onCellClick={null}
-            />
-
+          <main id="jogo" className="animar-entrada">
             <Dashboard
               nomeJogador={nomeJogador}
               vezDoJogador={vezDoJogador}
               combustivel={combustivel}
-              radarDisponivel={radarDisponivel}
-              jogoAtivo={fase === FASES.JOGO}
+              radarDisponivel={radarDisponivel && !aguardar}
+              jogoAtivo={fase === FASES.JOGO && !aguardar}
+              turnoId={turnoId}
               turnoSegundos={dificuldadeAtual.turnoSegundos}
               onTempoEsgotado={handleTempoEsgotado}
               onSegundos={handleSegundos}
               onRadarAtivado={handleRadar}
             />
 
-            <Board
-              titulo="Tabuleiro do Computador"
-              tabuleiro={tabPC}
-              mostrarNavios={false}
-              radarArea={radarArea}
-              onCellClick={vezDoJogador ? handleDisparo : null}
-            />
+            <div className={"jogo-alvo" + (vezDoJogador ? " jogo-alvo--inimigo" : " jogo-alvo--meu")}>
+              <div className="jogo-alvo__cabecalho">
+                <h2>{vezDoJogador ? "Frota inimiga" : "A tua frota"}</h2>
+                <span className="jogo-alvo__frota">
+                  {frota.restantes}/{frota.total} navios a flutuar
+                </span>
+              </div>
+
+              <div key={vezDoJogador ? "pc" : "jogador"} className="jogo-alvo__tabuleiro">
+                <Board
+                  titulo={null}
+                  tabuleiro={tabVisivel}
+                  mostrarNavios={!vezDoJogador}
+                  radarArea={vezDoJogador ? radarArea : null}
+                  onCellClick={vezDoJogador && !aguardar ? handleDisparo : null}
+                  destacado={vezDoJogador}
+                />
+              </div>
+
+              <p
+                key={mensagem ? mensagem.texto + jogadas : "vazio"}
+                className={"jogo-mensagem" + (mensagem ? " jogo-mensagem--" + mensagem.tipo : "")}
+                role="status"
+              >
+                {mensagem ? mensagem.texto : "\u00a0"}
+              </p>
+            </div>
           </main>
-        </>
       )}
 
       {fase === FASES.FIM && (

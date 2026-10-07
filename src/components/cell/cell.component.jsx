@@ -29,6 +29,7 @@ function Cell({ cel, mostrarNavio, emRadar, afundado, onClick }) {
       aria-label={rotulo}
     >
       {falhou && <span className="cell__splash" aria-hidden="true" />}
+      {falhou && <span className="cell__cruz" aria-hidden="true" />}
       {acertou && (
         <span className="cell__explosao" aria-hidden="true">
           <span className="cell__explosao-nucleo" />
