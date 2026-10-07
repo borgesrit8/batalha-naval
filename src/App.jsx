@@ -101,7 +101,6 @@ function JogoInterno() {
   const [nomeJogador, setNomeJogador] = useState("");
   const [tabJogador, setTabJogador] = useState([]);
   const [tabPC, setTabPC] = useState([]);
-  const [debug, setDebug] = useState(false);
 
   const [vezDoJogador, setVezDoJogador] = useState(true);
   const [combustivel, setCombustivel] = useState(COMBUSTIVEL_INICIAL);
@@ -132,7 +131,6 @@ function JogoInterno() {
     setNomeJogador(dados.nome);
     setTabJogador(dados.tabJogador);
     setTabPC(dados.tabPC);
-    setDebug(dados.debug);
     setFase(FASES.JOGO);
     setVezDoJogador(true);
     setCombustivel(COMBUSTIVEL_INICIAL);
@@ -361,18 +359,16 @@ function JogoInterno() {
               combustivel={combustivel}
               radarDisponivel={radarDisponivel}
               jogoAtivo={fase === FASES.JOGO}
-              debug={debug}
               turnoSegundos={dificuldadeAtual.turnoSegundos}
               onTempoEsgotado={handleTempoEsgotado}
               onSegundos={handleSegundos}
               onRadarAtivado={handleRadar}
-              onToggleDebug={() => setDebug((d) => !d)}
             />
 
             <Board
               titulo="Tabuleiro do Computador"
               tabuleiro={tabPC}
-              mostrarNavios={debug}
+              mostrarNavios={false}
               radarArea={radarArea}
               onCellClick={vezDoJogador ? handleDisparo : null}
             />

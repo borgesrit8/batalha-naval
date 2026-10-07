@@ -11,7 +11,7 @@ function Board({ titulo, tabuleiro, mostrarNavios, radarArea, onCellClick, desta
 
   return (
     <div className={"board-wrapper" + (destacado ? " board-wrapper--destaque" : "")}>
-      <h3 className="board-wrapper__titulo">{titulo}</h3>
+      {titulo && <h3 className="board-wrapper__titulo">{titulo}</h3>}
       <div className="board vidro">
         <div className="board__linha board__linha--cabecalho">
           <div className="board__celula-vazia" />

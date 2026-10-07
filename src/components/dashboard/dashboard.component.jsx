@@ -3,19 +3,17 @@ import "./dashboard.css";
 import { COMBUSTIVEL_INICIAL } from "../../constants";
 
 // HUD central da partida: turno atual, cronómetro (anel animado),
-// combustível (barra com gradiente), radar e alternador de debug.
+// combustível (barra com gradiente), e radar.
 function Dashboard({
   nomeJogador,
   vezDoJogador,
   combustivel,
   radarDisponivel,
   jogoAtivo,
-  debug,
   turnoSegundos,
   onTempoEsgotado,
   onSegundos,
   onRadarAtivado,
-  onToggleDebug,
 }) {
   const [segundos, setSegundos] = useState(turnoSegundos);
 
@@ -88,10 +86,6 @@ function Dashboard({
         disabled={!radarDisponivel || !vezDoJogador}
       >
         📡 {radarDisponivel ? "Ativar Radar" : "Radar indisponível"}
-      </button>
-
-      <button className="btn btn-secundaria dashboard__botao dashboard__botao--debug" onClick={onToggleDebug}>
-        {debug ? "🙈 Esconder frota PC" : "🔍 Modo debug (dev)"}
       </button>
     </div>
   );

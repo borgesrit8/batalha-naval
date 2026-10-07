@@ -23,7 +23,6 @@ function Setup({ onIniciar, onVoltarMenu }) {
 
   const [frotaPC, setFrotaPC] = useState("aleatorio");
   const [tabuleiroPC, setTabuleiroPC] = useState(criarTabuleiro());
-  const [debug, setDebug] = useState(false);
 
   function handleMudarFrotaPC(valor) {
     setFrotaPC(valor);
@@ -72,7 +71,7 @@ function Setup({ onIniciar, onVoltarMenu }) {
   function handleIniciar() {
     const tabPC = frotaPC === "aleatorio" ? gerarFrotaAleatoria() : tabuleiroPC;
     tocar("clique");
-    onIniciar({ nome, tabJogador: tabuleiro, tabPC, debug });
+    onIniciar({ nome, tabJogador: tabuleiro, tabPC });
   }
 
   const frotaCompleta = navioAtual >= FROTA.length;
@@ -112,100 +111,76 @@ function Setup({ onIniciar, onVoltarMenu }) {
   }
 
   return (
-    <div id="setup" className="animar-entrada">
+    <div id="setup" className="setup--compacto animar-entrada">
       <h2 className="setup__titulo">Olá {nome}! Posiciona a tua frota</h2>
 
-      <div id="setup-layout">
-        <div id="setup-controlos" className="vidro">
-          <fieldset>
-            <legend>Orientação do navio</legend>
-            <div className="setup-orientacao">
-              <button
-                type="button"
-                className={"btn btn-secundaria" + (horizontal ? " is-ativo" : "")}
-                onClick={() => setHorizontal(true)}
-              >
-                ↔ Horizontal
-              </button>
-              <button
-                type="button"
-                className={"btn btn-secundaria" + (!horizontal ? " is-ativo" : "")}
-                onClick={() => setHorizontal(false)}
-              >
-                ↕ Vertical
-              </button>
-            </div>
-          </fieldset>
+      <Board
+        titulo={null}
+        tabuleiro={tabuleiro}
+        mostrarNavios={true}
+        radarArea={null}
+        onCellClick={!frotaCompleta ? handleCliqueCell : null}
+        destacado
+      />
 
-          <div id="lista-navios">
-            <p className="setup__subtitulo">Navios a colocar:</p>
-            {FROTA.map((tamanho, i) => (
-              <p
-                key={i}
-                className={
-                  "setup__navio" +
-                  (i < navioAtual ? " setup__navio--feito" : i === navioAtual ? " setup__navio--atual" : "")
-                }
-              >
-                {i < navioAtual ? "✔" : i === navioAtual ? "▶" : "○"} {NOMES_NAVIOS[tamanho]} ({tamanho})
-              </p>
-            ))}
-          </div>
+      <div id="setup-controlos" className="vidro">
+        <ul id="lista-navios" aria-label="Navios a colocar">
+          {FROTA.map((tamanho, i) => (
+            <li
+              key={i}
+              className={
+                "setup__navio" +
+                (i < navioAtual ? " setup__navio--feito" : i === navioAtual ? " setup__navio--atual" : "")
+              }
+            >
+              {i < navioAtual ? "✔ " : ""}
+              {NOMES_NAVIOS[tamanho]} ({tamanho})
+            </li>
+          ))}
+        </ul>
 
-          <div className="setup-acoes-rapidas">
-            <button className="btn btn-secundaria" onClick={handleReiniciar}>
-              Reiniciar
-            </button>
-            <button className="btn btn-secundaria" onClick={handleColocarAleatorio}>
-              🎲 Auto-colocar
-            </button>
-          </div>
-
-          <fieldset>
-            <legend>Frota do computador</legend>
-            <select value={frotaPC} onChange={(e) => handleMudarFrotaPC(e.target.value)}>
-              <option value="aleatorio">Aleatória</option>
-              <option value="0">Pré-definida 1</option>
-              <option value="1">Pré-definida 2</option>
-              <option value="2">Pré-definida 3</option>
-            </select>
-          </fieldset>
-
-          <fieldset>
-            <legend>Debug</legend>
-            <label className="setup-checkbox">
-              <input type="checkbox" checked={debug} onChange={(e) => setDebug(e.target.checked)} />
-              Mostrar frota do PC durante o jogo
-            </label>
-          </fieldset>
-
-          {erro !== "" && <p className="setup__erro">{erro}</p>}
-
+        <div className="setup-grelha-botoes">
           <button
-            className="btn btn-primaria setup__iniciar"
-            onClick={handleIniciar}
-            disabled={!frotaCompleta}
+            type="button"
+            className={"btn btn-secundaria" + (horizontal ? " is-ativo" : "")}
+            onClick={() => setHorizontal(true)}
           >
-            🚀 Iniciar Jogo
+            ↔ Horizontal
+          </button>
+          <button
+            type="button"
+            className={"btn btn-secundaria" + (!horizontal ? " is-ativo" : "")}
+            onClick={() => setHorizontal(false)}
+          >
+            ↕ Vertical
+          </button>
+          <button type="button" className="btn btn-secundaria" onClick={handleReiniciar}>
+            Reiniciar
+          </button>
+          <button type="button" className="btn btn-secundaria" onClick={handleColocarAleatorio}>
+            🎲 Auto-colocar
           </button>
         </div>
 
-        <Board
-          titulo="O teu tabuleiro"
-          tabuleiro={tabuleiro}
-          mostrarNavios={true}
-          radarArea={null}
-          onCellClick={!frotaCompleta ? handleCliqueCell : null}
-          destacado
-        />
+        <label className="setup-frota-pc">
+          <span>Frota do computador</span>
+          <select value={frotaPC} onChange={(e) => handleMudarFrotaPC(e.target.value)}>
+            <option value="aleatorio">Aleatória</option>
+            <option value="0">Pré-definida 1</option>
+            <option value="1">Pré-definida 2</option>
+            <option value="2">Pré-definida 3</option>
+          </select>
+        </label>
 
-        <Board
-          titulo={frotaPC === "aleatorio" ? "Computador (gerada ao iniciar)" : "Computador (pré-visualização)"}
-          tabuleiro={tabuleiroPC}
-          mostrarNavios={true}
-          radarArea={null}
-          onCellClick={null}
-        />
+        {erro !== "" && <p className="setup__erro">{erro}</p>}
+
+        <button
+          className="btn btn-primaria setup__iniciar"
+          onClick={handleIniciar}
+          disabled={!frotaCompleta}
+        >
+          🚀 Iniciar Jogo
+        </button>
       </div>
     </div>
   );
