@@ -27,6 +27,7 @@ import {
   MOEDAS_POR_VITORIA,
   MOEDAS_POR_DERROTA,
   NOMES_NAVIOS,
+  NAVIOS_FEMININOS,
 } from "./constants";
 import {
   copiarTabuleiro,
@@ -180,9 +181,13 @@ function JogoInterno() {
     if (!cel.navio) return { tipo: "agua", texto: sujeito === "jogador" ? "Água! Vez do computador" : "O computador falhou" };
     if (navioAfundadoNestaCelula(tab, l, c)) {
       const nome = NOMES_NAVIOS[tamanhoNavio(tab, cel.navio)] || "Navio";
+      const fem = NAVIOS_FEMININOS.includes(nome);
       return {
         tipo: "afundado",
-        texto: sujeito === "jogador" ? `${nome} afundado! Joga outra vez` : `O computador afundou o teu ${nome}`,
+        texto:
+          sujeito === "jogador"
+            ? `${nome} ${fem ? "afundada" : "afundado"}! Joga outra vez`
+            : `O computador afundou ${fem ? "a tua" : "o teu"} ${nome.toLowerCase()}`,
       };
     }
     return { tipo: "acerto", texto: sujeito === "jogador" ? "Acertaste! Joga outra vez" : "O computador acertou e volta a jogar" };

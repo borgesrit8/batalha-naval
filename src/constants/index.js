@@ -11,10 +11,13 @@ export const FROTA = [5, 4, 3, 3, 2, 2];
 
 export const NOMES_NAVIOS = {
   5: "Porta-aviões",
-  4: "Couraçado",
+  4: "Fragata",
   3: "Cruzador",
   2: "Submarino",
 };
+
+// Nomes femininos (para concordar "afundado/afundada", "o teu/a tua")
+export const NAVIOS_FEMININOS = ["Fragata"];
 
 export const COMBUSTIVEL_INICIAL = 100;
 export const CUSTO_DISPARO = 5;
