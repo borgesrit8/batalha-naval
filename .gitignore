@@ -39,3 +39,9 @@ android/app/release/
 *.jks
 *.keystore
 keystore.properties
+
+# Pasta local com a chave (nunca vai para o GitHub)
+Chave/
+chave/
+chaves/
+Chaves/
