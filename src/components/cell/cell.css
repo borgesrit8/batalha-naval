@@ -3,8 +3,8 @@
   width: var(--tamanho-cell);
   height: var(--tamanho-cell);
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: linear-gradient(145deg, #0f3a63, #0a2544);
+  border: 1px solid var(--cel-borda);
+  background: var(--cel);
   cursor: default;
   position: relative;
   overflow: hidden;
@@ -17,9 +17,9 @@
 }
 
 .cell--clicavel:hover {
-  filter: brightness(1.35);
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 6px 14px rgba(31, 127, 201, 0.45);
+  background: var(--acento-suave);
+  border-color: var(--acento);
+  transform: scale(1.05);
   z-index: 2;
 }
 
@@ -27,38 +27,25 @@
   transform: scale(0.94);
 }
 
-.cell::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    115deg,
-    rgba(255, 255, 255, 0.05) 0px,
-    rgba(255, 255, 255, 0.05) 2px,
-    transparent 2px,
-    transparent 8px
-  );
-  opacity: 0.5;
-  pointer-events: none;
-}
-
 .cell--navio {
-  background: linear-gradient(145deg, #2ec4b6, #1c8a80);
+  background: var(--navio);
+  border-color: var(--navio);
 }
 
 .cell--falhado {
-  background: linear-gradient(145deg, #24425c, #16293b);
   cursor: default;
 }
 
 .cell--acerto {
-  background: linear-gradient(145deg, #ff6b35, #b8371a);
+  background: var(--acerto);
+  border-color: var(--acerto);
   cursor: default;
   animation: acertoFlash 0.4s ease;
 }
 
 .cell--afundado {
-  background: linear-gradient(145deg, #7a0f16, #3d0509);
+  background: var(--afundado);
+  border-color: var(--afundado);
 }
 
 .cell--radar {
@@ -86,7 +73,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(201, 214, 223, 0.9);
+  background: var(--acento-suave);
   transform: translate(-50%, -50%);
   animation: splashAnel 0.6s ease-out both;
 }
@@ -142,9 +129,9 @@
   top: 50%;
   left: 50%;
   width: 62%;
-  height: 3px;
+  height: 2.5px;
   border-radius: 2px;
-  background: var(--light-gray);
+  background: var(--cruz);
   transform: translate(-50%, -50%) rotate(45deg) scaleX(0);
   animation: desenharCruz 0.25s ease-out forwards;
 }
@@ -158,8 +145,4 @@
 }
 @keyframes desenharCruz2 {
   to { transform: translate(-50%, -50%) rotate(-45deg) scaleX(1); }
-}
-[data-tema="claro"] .cell__cruz::before,
-[data-tema="claro"] .cell__cruz::after {
-  background: #f5f9fc;
 }

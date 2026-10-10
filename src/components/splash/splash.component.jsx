@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./splash.css";
+import FrotaIlustracao from "../main-menu/frota-ilustracao.component";
 
 // Ecrã de arranque com barra de progresso simulada — dá uma sensação de
 // app "profissional" e disfarça o tempo de inicialização do áudio/estado.
@@ -27,7 +28,7 @@ function Splash({ onTerminar }) {
 
   return (
     <div id="splash">
-      <div className="splash__icone">🌊⚓</div>
+      <FrotaIlustracao className="splash__frota" />
       <h1 className="splash__titulo">Batalha Naval</h1>
       <div className="splash__barra">
         <div className="splash__barra-preenchimento" style={{ width: progresso + "%" }} />

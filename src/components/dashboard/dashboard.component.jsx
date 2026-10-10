@@ -76,10 +76,7 @@ function Dashboard({
               className="dashboard__barra-preenchimento"
               style={{
                 width: percentCombustivel + "%",
-                background:
-                  percentCombustivel > 40
-                    ? "linear-gradient(90deg, var(--ocean-light), var(--turquoise))"
-                    : "linear-gradient(90deg, var(--orange), var(--red))",
+                background: percentCombustivel > 40 ? "var(--acento)" : "var(--red)",
               }}
             />
           </div>

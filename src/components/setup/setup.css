@@ -39,16 +39,16 @@
 
 #setup input[type="text"] {
   padding: 12px 14px;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--linha);
   border-radius: var(--radius-sm);
   font-size: 0.95rem;
-  background: var(--surface);
+  background: var(--painel);
   color: var(--text-primary);
   min-width: 200px;
 }
 
 #setup input[type="text"]:focus {
-  outline: 2px solid var(--turquoise);
+  outline: 2px solid var(--acento);
 }
 
 .setup__titulo {
@@ -110,15 +110,16 @@
   font-size: 0.72rem;
   padding: 4px 9px;
   border-radius: 999px;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--linha);
+  background: var(--painel);
   color: var(--text-muted);
   white-space: nowrap;
 }
 
 .setup__navio--atual {
-  color: #04121f;
-  background: var(--turquoise-soft);
-  border-color: var(--turquoise-soft);
+  color: var(--sobre-acento);
+  background: var(--acento);
+  border-color: var(--acento);
   font-weight: 700;
 }
 
@@ -139,8 +140,9 @@
 }
 
 .setup-grelha-botoes .is-ativo {
-  background: linear-gradient(135deg, var(--ocean-light), var(--turquoise));
-  color: #04121f;
+  background: var(--acento);
+  border-color: var(--acento);
+  color: var(--sobre-acento);
 }
 
 .setup-frota-pc {
@@ -157,9 +159,9 @@
   max-width: 55%;
   padding: 7px 8px;
   border-radius: var(--radius-sm);
-  background: var(--surface);
+  background: var(--painel);
   color: var(--text-primary);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--linha);
 }
 
 .setup__erro {

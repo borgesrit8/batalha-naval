@@ -52,11 +52,11 @@
 }
 
 .jogo-alvo--inimigo .jogo-alvo__cabecalho h2 {
-  color: var(--turquoise-soft);
+  color: var(--acento);
 }
 
 .jogo-alvo--meu .jogo-alvo__cabecalho h2 {
-  color: var(--orange);
+  color: var(--acerto);
 }
 
 .jogo-alvo__frota {
@@ -75,7 +75,7 @@
 }
 
 .jogo-alvo--meu .board {
-  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.55), var(--shadow-strong);
+  box-shadow: 0 0 0 2px var(--acerto), var(--shadow-strong);
 }
 
 .jogo-mensagem {
@@ -93,18 +93,19 @@
 }
 
 .jogo-mensagem--acerto {
-  color: #04121f;
+  color: var(--sobre-gold);
   background: var(--gold);
 }
 
 .jogo-mensagem--afundado {
-  color: var(--white);
+  color: var(--texto-claro);
   background: var(--red);
 }
 
 .jogo-mensagem--agua {
   color: var(--text-primary);
-  background: var(--surface-strong);
+  background: var(--painel);
+  border: 1px solid var(--linha);
 }
 
 .rodape-global {

@@ -8,28 +8,29 @@
   text-align: center;
 }
 
-.splash__icone {
-  font-size: 3rem;
-  animation: flutuar 2.4s ease-in-out infinite;
+.splash__frota {
+  width: min(280px, 80vw);
 }
 
 .splash__titulo {
   color: var(--text-primary);
   font-size: 1.4rem;
-  letter-spacing: 0.08em;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .splash__barra {
   width: 200px;
   height: 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--surface-strong);
   overflow: hidden;
 }
 
 .splash__barra-preenchimento {
   height: 100%;
-  background: linear-gradient(90deg, var(--ocean-light), var(--turquoise));
+  background: var(--acento);
   transition: width 0.1s linear;
 }
 

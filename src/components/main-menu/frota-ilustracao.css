@@ -1,0 +1,111 @@
+.frota {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  /* Esbate o mar nas margens e em baixo, para não ficar com cantos retos */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%),
+    linear-gradient(to bottom, #000 70%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%),
+    linear-gradient(to bottom, #000 70%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.frota__casco {
+  fill: var(--navio);
+}
+
+.frota__super {
+  fill: var(--navio-claro, #2f5584);
+}
+
+.frota__janela {
+  fill: var(--painel);
+  opacity: 0.85;
+}
+
+.frota__linha-agua,
+.frota__bandeira {
+  fill: var(--acerto);
+}
+
+.frota__marcas {
+  stroke: var(--painel);
+  stroke-width: 1;
+  stroke-dasharray: 7 5;
+  opacity: 0.7;
+}
+
+.frota__mastro {
+  stroke: var(--navio);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.frota__mastro--fino {
+  stroke-width: 1.3;
+}
+
+.frota__canhao {
+  stroke: var(--navio);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.frota__gaivotas path {
+  fill: none;
+  stroke: var(--text-muted);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+.frota__onda path {
+  fill: var(--acento);
+}
+
+.frota__onda--tras {
+  opacity: 0.16;
+  animation: frotaOnda 7s linear infinite;
+}
+
+.frota__onda--frente {
+  opacity: 0.42;
+  animation: frotaOnda 5s linear infinite reverse;
+}
+
+/* Cada navio balança ao seu ritmo */
+.frota__navio {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: frotaBalancar 4s ease-in-out infinite;
+}
+
+.frota__navio--fragata {
+  animation-duration: 3.4s;
+  animation-delay: -1.2s;
+}
+
+.frota__navio--submarino {
+  animation-duration: 5s;
+  animation-delay: -2s;
+}
+
+@keyframes frotaBalancar {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-2px) rotate(-0.8deg); }
+}
+
+/* Uma onda tem 90 unidades de comprimento: deslizar exatamente isso dá um ciclo contínuo */
+@keyframes frotaOnda {
+  from { transform: translateX(0); }
+  to { transform: translateX(90px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frota__navio,
+  .frota__onda--tras,
+  .frota__onda--frente {
+    animation: none;
+  }
+}

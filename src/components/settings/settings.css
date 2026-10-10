@@ -49,8 +49,9 @@
 }
 
 .settings__toggle.is-ativo {
-  background: linear-gradient(135deg, var(--ocean-light), var(--turquoise));
-  color: #04121f;
+  background: var(--acento);
+  border-color: var(--acento);
+  color: var(--sobre-acento);
 }
 
 .settings__bloco-dificuldade {
@@ -81,12 +82,14 @@
 }
 
 .settings__dificuldade.is-ativo {
-  background: linear-gradient(135deg, var(--ocean-light), var(--turquoise));
-  color: #04121f;
+  background: var(--acento);
+  border-color: var(--acento);
+  color: var(--sobre-acento);
 }
 
 .settings__dificuldade.is-ativo span {
-  color: #0b2333;
+  color: var(--sobre-acento);
+  opacity: 0.85;
 }
 
 .settings__voltar {

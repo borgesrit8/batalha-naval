@@ -14,10 +14,13 @@
 }
 
 .board-wrapper--destaque .board {
-  box-shadow: 0 0 0 2px var(--turquoise), var(--shadow-strong);
+  box-shadow: 0 0 0 2px var(--acento), var(--shadow-strong);
 }
 
 .board {
+  background: var(--painel);
+  border: 1px solid var(--linha);
+  box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -36,6 +39,7 @@
   align-items: center;
   justify-content: center;
   font-size: 0.65rem;
+  font-weight: 600;
   color: var(--text-muted);
   flex-shrink: 0;
 }

@@ -1,55 +1,88 @@
 /* ============================================================
-   DESIGN TOKENS — paleta inspirada no oceano
-   Tudo o resto do CSS da aplicação usa estas variáveis, o que
-   torna o tema (claro/escuro) e o rebranding triviais.
+   DESIGN TOKENS — tema "Oceano Claro"
+   Visual limpo e plano: fundo claro, cartões brancos, azul como cor
+   principal e coral para os acertos. Tudo o resto do CSS usa estas
+   variáveis; o modo escuro (Definições) só troca os valores.
    ============================================================ */
 :root {
-  --navy: #0b1f3a;
-  --navy-deep: #071426;
-  --ocean: #145da0;
-  --ocean-light: #1f7fc9;
-  --turquoise: #2ec4b6;
-  --turquoise-soft: #7fe0d6;
-  --white: #f5f9fc;
-  --light-gray: #c9d6df;
+  /* Cores base */
+  --bg: #eef3f8;
+  --painel: #ffffff;
+  --linha: #dbe4ee;
+  --acento: #1f5fd6;
+  --acento-forte: #174bb0;
+  --sobre-acento: #ffffff;           /* texto em cima da cor de acento */
+  --acento-suave: rgba(31, 95, 214, 0.1);
 
-  --orange: #ff6b35;
-  --gold: #ffd23f;
-  --red: #e63946;
-  --green: #38b06a;
+  /* Tabuleiro */
+  --cel: #e6eef7;
+  --cel-borda: #d6e1ee;
+  --navio: #1e3a5f;
+  --navio-claro: #2f5584;
+  --acerto: #f0532d;
+  --afundado: #a3231b;
+  --cruz: #8193a8;
 
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 22px;
+  /* Estados */
+  --orange: #f0532d;
+  --gold: #f5b72e;
+  --sobre-gold: #2a1d00;
+  --red: #d93b2b;
+  --green: #1f9d63;
 
-  --shadow-soft: 0 8px 24px rgba(3, 14, 33, 0.35);
-  --shadow-strong: 0 16px 40px rgba(3, 14, 33, 0.5);
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
 
-  --glass-bg: rgba(245, 249, 252, 0.08);
-  --glass-border: rgba(245, 249, 252, 0.18);
+  --shadow-soft: 0 6px 20px rgba(15, 31, 51, 0.08);
+  --shadow-strong: 0 10px 30px rgba(15, 31, 51, 0.12);
 
-  --bg-grad: radial-gradient(circle at 20% 0%, #123a63 0%, var(--navy) 45%, var(--navy-deep) 100%);
-  --text-primary: var(--white);
-  --text-muted: var(--light-gray);
-  --surface: rgba(255, 255, 255, 0.06);
-  --surface-strong: rgba(255, 255, 255, 0.1);
-  --font-display: "Poppins", "Segoe UI", system-ui, sans-serif;
-  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --bg-grad: linear-gradient(180deg, #f6f9fc 0%, var(--bg) 100%);
+  --text-primary: #0f1f33;
+  --text-muted: #5d6f84;
+  --texto-claro: #ffffff;            /* texto sobre fundos fortes (vermelho, azul) */
+  --surface: #f3f6fa;
+  --surface-strong: #eef2f7;
+  --glass-bg: var(--painel);
+  --glass-border: var(--linha);
+  --font-display: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+
+  /* Nomes antigos (mantidos para os ecrãs que ainda os usam) */
+  --turquoise: var(--acento);
+  --turquoise-soft: var(--acento);
+  --ocean-light: var(--acento-forte);
+  --ocean: var(--acento-forte);
+  --light-gray: var(--text-muted);
 
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-[data-tema="claro"] {
-  --bg-grad: radial-gradient(circle at 20% 0%, #d7ecfa 0%, #eaf4fb 45%, #f5f9fc 100%);
-  --text-primary: #0b1f3a;
-  --text-muted: #46617a;
-  --surface: rgba(11, 31, 58, 0.05);
-  --surface-strong: rgba(11, 31, 58, 0.08);
-  --glass-bg: rgba(11, 31, 58, 0.04);
-  --glass-border: rgba(11, 31, 58, 0.12);
-  --shadow-soft: 0 8px 24px rgba(20, 93, 160, 0.12);
-  --shadow-strong: 0 16px 40px rgba(20, 93, 160, 0.18);
+/* Modo escuro: o mesmo design com as cores invertidas */
+[data-tema="escuro"] {
+  --bg: #0b1626;
+  --painel: #12223a;
+  --linha: #22385a;
+  --acento: #4f8cff;
+  --acento-forte: #3a74e0;
+  --sobre-acento: #ffffff;
+  --acento-suave: rgba(79, 140, 255, 0.14);
+
+  --cel: #182c47;
+  --cel-borda: #22385a;
+  --navio: #9dbbe6;
+  --navio-claro: #c5d8f2;
+  --cruz: #8ea3bd;
+
+  --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.3);
+  --shadow-strong: 0 10px 30px rgba(0, 0, 0, 0.4);
+
+  --bg-grad: linear-gradient(180deg, #0e1b2e 0%, var(--bg) 100%);
+  --text-primary: #eaf1fb;
+  --text-muted: #93a7c0;
+  --surface: #16283f;
+  --surface-strong: #1a2e48;
 }
 
 * {
@@ -84,10 +117,8 @@ button {
 
 /* Utilitário de vidro (glassmorphism) reutilizado em vários painéis */
 .vidro {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: var(--painel);
+  border: 1px solid var(--linha);
   box-shadow: var(--shadow-soft);
 }
 
@@ -114,40 +145,38 @@ button {
 }
 
 .btn-primaria {
-  background: linear-gradient(135deg, var(--ocean-light), var(--turquoise));
-  color: #04121f;
+  background: var(--acento);
+  color: var(--sobre-acento);
   padding: 14px 28px;
   font-size: 1rem;
-  box-shadow: 0 10px 24px rgba(46, 196, 182, 0.35);
+  box-shadow: 0 8px 20px rgba(31, 95, 214, 0.28);
 }
 
 .btn-primaria:not(:disabled):hover {
-  filter: brightness(1.08);
-  box-shadow: 0 14px 30px rgba(46, 196, 182, 0.45);
+  background: var(--acento-forte);
 }
 
 .btn-secundaria {
-  background: var(--surface-strong);
+  background: var(--painel);
   color: var(--text-primary);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--linha);
   padding: 12px 22px;
   font-size: 0.95rem;
 }
 
 .btn-secundaria:not(:disabled):hover {
-  background: var(--surface);
-  border-color: var(--turquoise-soft);
+  border-color: var(--acento);
 }
 
 .btn-perigo {
-  background: linear-gradient(135deg, var(--red), #a4222c);
-  color: var(--white);
+  background: var(--red);
+  color: var(--texto-claro);
   padding: 12px 22px;
 }
 
 .btn-icone {
-  background: var(--surface-strong);
-  border: 1px solid var(--glass-border);
+  background: var(--painel);
+  border: 1px solid var(--linha);
   color: var(--text-primary);
   width: 44px;
   height: 44px;
@@ -159,8 +188,8 @@ button {
 }
 
 ::selection {
-  background: var(--turquoise);
-  color: var(--navy-deep);
+  background: var(--acento);
+  color: var(--sobre-acento);
 }
 
 ::-webkit-scrollbar {
@@ -183,8 +212,8 @@ button {
 }
 
 @keyframes pulsar {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(46, 196, 182, 0.5); }
-  50% { box-shadow: 0 0 0 10px rgba(46, 196, 182, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(31, 95, 214, 0.35); }
+  50% { box-shadow: 0 0 0 10px rgba(31, 95, 214, 0); }
 }
 
 @keyframes tremorCamera {
