@@ -108,6 +108,11 @@
   border: 1px solid var(--linha);
 }
 
+/* Espaço para o banner de anúncios (só na app Android) */
+.com-anuncio #container {
+  padding-bottom: calc(var(--safe-bottom) + 64px);
+}
+
 .rodape-global {
   text-align: center;
   padding: 14px;

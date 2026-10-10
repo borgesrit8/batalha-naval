@@ -21,7 +21,9 @@
   --navio-claro: #2f5584;
   --acerto: #f0532d;
   --afundado: #a3231b;
-  --cruz: #8193a8;
+  --cruz: #5d7590;
+  --agua: #cfe0f7;
+  --agua-borda: #b8d0f0;
 
   /* Estados */
   --orange: #f0532d;
@@ -73,7 +75,9 @@
   --cel-borda: #22385a;
   --navio: #9dbbe6;
   --navio-claro: #c5d8f2;
-  --cruz: #8ea3bd;
+  --cruz: #a9bdd6;
+  --agua: #1d3b66;
+  --agua-borda: #27497a;
 
   --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.3);
   --shadow-strong: 0 10px 30px rgba(0, 0, 0, 0.4);

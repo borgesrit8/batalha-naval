@@ -16,6 +16,8 @@ import {
   Lobby,
   OnlineGame,
 } from "./components";
+import { Capacitor } from "@capacitor/core";
+import { AdMob, BannerAdSize, BannerAdPosition } from "@capacitor-community/admob";
 import { DefinicoesProvider, useDefinicoes } from "./context/DefinicoesContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { carregarProgresso, guardarProgresso, fundirProgresso } from "./services/progresso";
@@ -68,6 +70,37 @@ function sortear(probabilidade) {
 }
 
 function JogoInterno() {
+  // Banner de anúncios (AdMob) no fundo do ecrã. Só existe na app Android:
+  // no site (Vercel) o plugin não funciona, por isso nem se tenta.
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return;
+
+    const iniciarAdMob = async () => {
+      try {
+        await AdMob.initialize({
+          initializeForTesting: true,
+        });
+
+        await AdMob.showBanner({
+          adId: "ca-app-pub-4514217627004917/3273004867",
+          adSize: BannerAdSize.ADAPTIVE_BANNER,
+          position: BannerAdPosition.BOTTOM_CENTER,
+        });
+        // Reserva espaço em baixo para o banner não tapar os botões
+        document.body.classList.add("com-anuncio");
+      } catch (erro) {
+        console.warn("[AdMob] Não foi possível mostrar o anúncio:", erro);
+      }
+    };
+
+    iniciarAdMob();
+
+    return () => {
+      AdMob.hideBanner().catch(() => {});
+      document.body.classList.remove("com-anuncio");
+    };
+  }, []);
+
   const { definicoes } = useDefinicoes();
   const { utilizador } = useAuth();
   const { estatisticas, registarJogo, definirEstatisticas } = useEstatisticas();
