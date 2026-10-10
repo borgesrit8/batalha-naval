@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
-import "./App.css";
+import "./App.css"; 
 import {
   Setup,
   Board,
@@ -16,6 +16,7 @@ import {
   Lobby,
   OnlineGame,
 } from "./components";
+import { AdMob, BannerAdSize, BannerAdPosition } from "@capacitor-community/admob";
 import { DefinicoesProvider, useDefinicoes } from "./context/DefinicoesContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { carregarProgresso, guardarProgresso, fundirProgresso } from "./services/progresso";
@@ -58,6 +59,25 @@ const FASES = {
 };
 
 function JogoInterno() {
+    useEffect(() => {
+    const iniciarAdMob = async () => {
+      await AdMob.initialize({
+        initializeForTesting: true,
+      });
+
+      await AdMob.showBanner({
+        adId: "ca-app-pub-4514217627004917/3273004867",
+        adSize: BannerAdSize.ADAPTIVE_BANNER,
+        position: BannerAdPosition.BOTTOM_CENTER,
+      });
+    };
+
+    iniciarAdMob();
+
+    return () => {
+      AdMob.hideBanner();
+    };
+  }, []); 
   const { definicoes } = useDefinicoes();
   const { utilizador } = useAuth();
   const { estatisticas, registarJogo, definirEstatisticas } = useEstatisticas();
