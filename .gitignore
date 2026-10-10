@@ -23,4 +23,19 @@ dist-ssr
 *.sln
 *.sw?
 .env
-android/
+
+# Projeto Android: o código vai para o GitHub, mas as compilações e a chave não
+android/app/build/
+android/build/
+android/.gradle/
+android/.idea/
+android/local.properties
+android/capacitor-cordova-android-plugins/build/
+android/app/release/
+*.aab
+*.apk
+
+# Chave de assinatura da Play Store — NUNCA enviar para o GitHub
+*.jks
+*.keystore
+keystore.properties
