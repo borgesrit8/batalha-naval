@@ -42,6 +42,9 @@ mas login e multiplayer ficam desativados (com um aviso claro no ecrã).
    copia o conteúdo para a aba **Regras** do Firestore na consola (ou usa
    a Firebase CLI: `firebase deploy --only firestore:rules`).
 6. `npm run dev` — o login e o multiplayer já devem estar ativos.
+7. **Site no Vercel:** o `.env` não vai para o GitHub, por isso as mesmas 6
+   variáveis têm de ser adicionadas em Vercel → Settings → Environment
+   Variables (tipo "Config"), seguidas de um novo deploy.
 
 ### Como funciona o multiplayer
 
