@@ -13,9 +13,39 @@ class MotorSom {
     this.somAtivo = true;
     this.musicaAtiva = true;
     this._nosMusica = null;
+    this.emSegundoPlano = typeof document !== "undefined" && document.hidden;
+
+    // Quando a app vai para segundo plano (botão home, trocar de app, ecrã
+    // desligado), o som tem de parar logo — senão a música e os efeitos
+    // continuam a ouvir-se durante uns segundos até o Android suspender a app.
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) this._entrarSegundoPlano();
+        else this._voltarPrimeiroPlano();
+      });
+      window.addEventListener("pagehide", () => this._entrarSegundoPlano());
+    }
+  }
+
+  _entrarSegundoPlano() {
+    this.emSegundoPlano = true;
+    if (this.contexto && this.contexto.state === "running") {
+      // suspend() corta todo o áudio de imediato (efeitos e música)
+      this.contexto.suspend().catch(() => {});
+    }
+  }
+
+  _voltarPrimeiroPlano() {
+    this.emSegundoPlano = false;
+    // Só retoma se houver algo para tocar; a música recomeça onde estava
+    if (this.contexto && this.contexto.state === "suspended" && (this.musicaAtiva || this.somAtivo)) {
+      this.contexto.resume().catch(() => {});
+    }
   }
 
   _garantirContexto() {
+    // Em segundo plano não se toca nada (e não se reativa o áudio)
+    if (this.emSegundoPlano) return null;
     if (!this.contexto) {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (!AudioCtx) return null;
@@ -77,7 +107,7 @@ class MotorSom {
   }
 
   tocar(nome) {
-    if (!this.somAtivo) return;
+    if (!this.somAtivo || this.emSegundoPlano) return;
     try {
       switch (nome) {
         case "clique":
