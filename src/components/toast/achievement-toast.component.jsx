@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./achievement-toast.css";
+import { useT } from "../../i18n";
 import { useSom } from "../../hooks/useSom";
 
 // Mostra uma pequena notificação temporária quando uma conquista é
@@ -7,6 +8,7 @@ import { useSom } from "../../hooks/useSom";
 function AchievementToast({ conquistas }) {
   const [indice, setIndice] = useState(0);
   const tocar = useSom();
+  const t = useT();
 
   useEffect(() => {
     setIndice(0);
@@ -26,8 +28,8 @@ function AchievementToast({ conquistas }) {
     <div className="achievement-toast animar-entrada" key={c.id}>
       <span className="achievement-toast__icone">{c.icone}</span>
       <div>
-        <strong>Conquista desbloqueada!</strong>
-        <p>{c.nome}</p>
+        <strong>{t("conquistas.desbloqueada")}</strong>
+        <p>{t(`conquistas.lista.${c.id}.nome`)}</p>
       </div>
     </div>
   );

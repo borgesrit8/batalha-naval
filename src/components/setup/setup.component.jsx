@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./setup.css";
+import { useT } from "../../i18n";
 import Board from "../board/board.component";
-import { FROTA, FROTAS_PC, NOMES_NAVIOS } from "../../constants";
+import { FROTA, FROTAS_PC } from "../../constants";
 import {
   criarTabuleiro,
   posicaoValida,
@@ -12,6 +13,7 @@ import { useSom } from "../../hooks/useSom";
 
 function Setup({ onIniciar, onVoltarMenu }) {
   const tocar = useSom();
+  const t = useT();
 
   const [nome, setNome] = useState("");
   const [nomeConfirmado, setNomeConfirmado] = useState(false);
@@ -44,7 +46,7 @@ function Setup({ onIniciar, onVoltarMenu }) {
     const tamanho = FROTA[navioAtual];
 
     if (!posicaoValida(tabuleiro, l, c, tamanho, horizontal)) {
-      setErro("Posição inválida! Verifica os limites e sobreposições.");
+      setErro(t("setup.posicaoInvalida"));
       return;
     }
 
@@ -80,12 +82,12 @@ function Setup({ onIniciar, onVoltarMenu }) {
     return (
       <div id="setup" className="animar-entrada">
         <div className="setup-boasvindas vidro">
-          <h2>Batalha Naval Avançada</h2>
-          <p>Introduz o teu nome de comandante para começar:</p>
+          <h2>{t("setup.tituloBoasVindas")}</h2>
+          <p>{t("setup.pedirNome")}</p>
           <div className="setup-boasvindas__form">
             <input
               type="text"
-              placeholder="O teu nome..."
+              placeholder={t("setup.placeholderNome")}
               value={nome}
               maxLength={20}
               onChange={(e) => setNome(e.target.value)}
@@ -97,12 +99,12 @@ function Setup({ onIniciar, onVoltarMenu }) {
               onClick={() => setNomeConfirmado(true)}
               disabled={nome.trim() === ""}
             >
-              Continuar
+              {t("setup.continuar")}
             </button>
           </div>
           {onVoltarMenu && (
             <button className="btn btn-secundaria setup-boasvindas__voltar" onClick={onVoltarMenu}>
-              ← Menu principal
+              {t("comum.menuPrincipal")}
             </button>
           )}
         </div>
@@ -112,7 +114,7 @@ function Setup({ onIniciar, onVoltarMenu }) {
 
   return (
     <div id="setup" className="setup--compacto animar-entrada">
-      <h2 className="setup__titulo">Olá {nome}! Posiciona a tua frota</h2>
+      <h2 className="setup__titulo">{t("setup.titulo", nome)}</h2>
 
       <Board
         titulo={null}
@@ -124,7 +126,7 @@ function Setup({ onIniciar, onVoltarMenu }) {
       />
 
       <div id="setup-controlos" className="vidro">
-        <ul id="lista-navios" aria-label="Navios a colocar">
+        <ul id="lista-navios" aria-label={t("setup.naviosAColocar")}>
           {FROTA.map((tamanho, i) => (
             <li
               key={i}
@@ -134,7 +136,7 @@ function Setup({ onIniciar, onVoltarMenu }) {
               }
             >
               {i < navioAtual ? "✔ " : ""}
-              {NOMES_NAVIOS[tamanho]} ({tamanho})
+              {t(`navios.${tamanho}`)} ({tamanho})
             </li>
           ))}
         </ul>
@@ -145,30 +147,30 @@ function Setup({ onIniciar, onVoltarMenu }) {
             className={"btn btn-secundaria" + (horizontal ? " is-ativo" : "")}
             onClick={() => setHorizontal(true)}
           >
-            ↔ Horizontal
+            {t("setup.horizontal")}
           </button>
           <button
             type="button"
             className={"btn btn-secundaria" + (!horizontal ? " is-ativo" : "")}
             onClick={() => setHorizontal(false)}
           >
-            ↕ Vertical
+            {t("setup.vertical")}
           </button>
           <button type="button" className="btn btn-secundaria" onClick={handleReiniciar}>
-            Reiniciar
+            {t("setup.reiniciar")}
           </button>
           <button type="button" className="btn btn-secundaria" onClick={handleColocarAleatorio}>
-            🎲 Auto-colocar
+            {t("setup.autoColocar")}
           </button>
         </div>
 
         <label className="setup-frota-pc">
-          <span>Frota do computador</span>
+          <span>{t("setup.frotaPC")}</span>
           <select value={frotaPC} onChange={(e) => handleMudarFrotaPC(e.target.value)}>
-            <option value="aleatorio">Aleatória</option>
-            <option value="0">Pré-definida 1</option>
-            <option value="1">Pré-definida 2</option>
-            <option value="2">Pré-definida 3</option>
+            <option value="aleatorio">{t("setup.aleatoria")}</option>
+            <option value="0">{t("setup.predefinida", 1)}</option>
+            <option value="1">{t("setup.predefinida", 2)}</option>
+            <option value="2">{t("setup.predefinida", 3)}</option>
           </select>
         </label>
 
@@ -179,7 +181,7 @@ function Setup({ onIniciar, onVoltarMenu }) {
           onClick={handleIniciar}
           disabled={!frotaCompleta}
         >
-          🚀 Iniciar Jogo
+          {t("setup.iniciar")}
         </button>
       </div>
     </div>

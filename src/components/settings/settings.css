@@ -95,3 +95,13 @@
 .settings__voltar {
   margin-top: 6px;
 }
+
+.settings__idiomas {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings__idiomas .settings__toggle {
+  min-width: 130px;
+}

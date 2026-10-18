@@ -51,12 +51,12 @@ export async function criarSala(uid, nome) {
 export async function entrarSala(codigo, uid, nome) {
   const ref = doc(db, "rooms", codigo.toUpperCase());
   const snap = await getDoc(ref);
-  if (!snap.exists()) throw new Error("Sala não encontrada. Confirma o código.");
+  if (!snap.exists()) throw new Error("sala-nao-encontrada");
   const sala = snap.data();
 
   if (sala.jogadorA && sala.jogadorA.uid === uid) return sala.codigo;
   if (sala.jogadorB && sala.jogadorB.uid === uid) return sala.codigo;
-  if (sala.jogadorB) throw new Error("Esta sala já está cheia.");
+  if (sala.jogadorB) throw new Error("sala-cheia");
 
   await updateDoc(ref, { jogadorB: { uid, nome }, estado: "colocacao" });
   return sala.codigo;

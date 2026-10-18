@@ -9,15 +9,7 @@ export const TAMANHO = 10;
 // Tamanho de cada navio da frota (nº de células)
 export const FROTA = [5, 4, 3, 3, 2, 2];
 
-export const NOMES_NAVIOS = {
-  5: "Porta-aviões",
-  4: "Fragata",
-  3: "Cruzador",
-  2: "Submarino",
-};
-
-// Nomes femininos (para concordar "afundado/afundada", "o teu/a tua")
-export const NAVIOS_FEMININOS = ["Fragata"];
+// Os nomes dos navios (em PT e EN) estão em src/i18n/textos.js → navios
 
 export const COMBUSTIVEL_INICIAL = 100;
 export const CUSTO_DISPARO = 5;

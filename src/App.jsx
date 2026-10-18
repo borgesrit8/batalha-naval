@@ -28,9 +28,8 @@ import {
   DIFICULDADES,
   MOEDAS_POR_VITORIA,
   MOEDAS_POR_DERROTA,
-  NOMES_NAVIOS,
-  NAVIOS_FEMININOS,
 } from "./constants";
+import { useT } from "./i18n";
 import {
   copiarTabuleiro,
   todosAfundados,
@@ -106,6 +105,7 @@ function JogoInterno() {
   const { estatisticas, registarJogo, definirEstatisticas } = useEstatisticas();
   const { desbloqueadas, verificarNovasConquistas, definirDesbloqueadas } = useConquistas();
   const tocar = useSom();
+  const t = useT();
 
   const [fase, setFase] = useState(FASES.SPLASH);
   const faseAnteriorMenu = useRef(FASES.MENU);
@@ -196,7 +196,7 @@ function JogoInterno() {
     setNovasConquistas([]);
     setAguardar(false);
     setTurnoId(0);
-    setMensagem({ tipo: "info", texto: "Escolhe uma célula para disparar" });
+    setMensagem({ tipo: "info", chave: "jogo.escolheCelula" });
     partidaRef.current += 1;
     jogoRegistadoRef.current = false;
   }
@@ -209,27 +209,32 @@ function JogoInterno() {
     }, ms);
   }
 
+  // Devolve a mensagem do tiro como chave de tradução (+ tamanho do navio
+  // afundado), para ser mostrada na língua escolhida.
   function descreverTiro(tab, l, c, sujeito) {
     const cel = tab[l][c];
-    if (!cel.navio) return { tipo: "agua", texto: sujeito === "jogador" ? "Água! Vez do computador" : "O computador falhou" };
+    const jogador = sujeito === "jogador";
+    if (!cel.navio) return { tipo: "agua", chave: jogador ? "jogo.agua" : "jogo.pcFalhou" };
     if (navioAfundadoNestaCelula(tab, l, c)) {
-      const nome = NOMES_NAVIOS[tamanhoNavio(tab, cel.navio)] || "Navio";
-      const fem = NAVIOS_FEMININOS.includes(nome);
       return {
         tipo: "afundado",
-        texto:
-          sujeito === "jogador"
-            ? `${nome} ${fem ? "afundada" : "afundado"}! Joga outra vez`
-            : `O computador afundou ${fem ? "a tua" : "o teu"} ${nome.toLowerCase()}`,
+        chave: jogador ? "jogo.afundaste" : "jogo.pcAfundou",
+        tamanhoNavio: tamanhoNavio(tab, cel.navio),
       };
     }
-    return { tipo: "acerto", texto: sujeito === "jogador" ? "Acertaste! Joga outra vez" : "O computador acertou e volta a jogar" };
+    return { tipo: "acerto", chave: jogador ? "jogo.acertaste" : "jogo.pcAcertou" };
+  }
+
+  function textoMensagem(m) {
+    if (!m) return "\u00a0";
+    if (m.tamanhoNavio) return t(m.chave, t(`navios.${m.tamanhoNavio}`));
+    return t(m.chave);
   }
 
   // Passa a vez ao computador: mostra o tabuleiro do jogador e começa a disparar.
   function passarVezAoPC(tabJAtual, modo, alvos, jogadasAtuais) {
     setVezDoJogador(false);
-    setMensagem({ tipo: "info", texto: "O computador está a mirar…" });
+    setMensagem({ tipo: "info", chave: "jogo.pcAMirar" });
     depois(900, () => atacarPC(tabJAtual, modo, alvos, jogadasAtuais));
   }
 
@@ -350,7 +355,7 @@ function JogoInterno() {
     depois(1200, () => {
       setVezDoJogador(true);
       setTurnoId((t) => t + 1);
-      setMensagem({ tipo: "info", texto: "A tua vez! Escolhe onde disparar" });
+      setMensagem({ tipo: "info", chave: "jogo.tuaVez" });
     });
   }
 
@@ -366,7 +371,7 @@ function JogoInterno() {
 
     setCombustivel(novoCombustivel);
     passarVezAoPC(tabJogador, modoIA, alvosIA, jogadas);
-    setMensagem({ tipo: "agua", texto: "Tempo esgotado! Vez do computador" });
+    setMensagem({ tipo: "agua", chave: "jogo.tempoEsgotado" });
   }
 
   function handleRadar() {
@@ -476,9 +481,9 @@ function JogoInterno() {
 
             <div className={"jogo-alvo" + (vezDoJogador ? " jogo-alvo--inimigo" : " jogo-alvo--meu")}>
               <div className="jogo-alvo__cabecalho">
-                <h2>{vezDoJogador ? "Frota inimiga" : "A tua frota"}</h2>
+                <h2>{vezDoJogador ? t("jogo.frotaInimiga") : t("jogo.tuaFrota")}</h2>
                 <span className="jogo-alvo__frota">
-                  {frota.restantes}/{frota.total} navios a flutuar
+                  {t("jogo.naviosAFlutuar", frota.restantes, frota.total)}
                 </span>
               </div>
 
@@ -494,11 +499,11 @@ function JogoInterno() {
               </div>
 
               <p
-                key={mensagem ? mensagem.texto + jogadas : "vazio"}
+                key={mensagem ? mensagem.chave + jogadas : "vazio"}
                 className={"jogo-mensagem" + (mensagem ? " jogo-mensagem--" + mensagem.tipo : "")}
                 role="status"
               >
-                {mensagem ? mensagem.texto : "\u00a0"}
+                {textoMensagem(mensagem)}
               </p>
             </div>
           </main>

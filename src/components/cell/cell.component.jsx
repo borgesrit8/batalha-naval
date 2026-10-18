@@ -1,9 +1,11 @@
 import React from "react";
 import "./cell.css";
+import { useT } from "../../i18n";
 
 // Uma única célula do tabuleiro. Puramente apresentacional: recebe o
 // estado já calculado e limita-se a escolher classes/animações.
 function Cell({ cel, mostrarNavio, emRadar, afundado, onClick }) {
+  const t = useT();
   const acertou = cel.atingida && cel.navio;
   const falhou = cel.atingida && !cel.navio;
 
@@ -15,10 +17,10 @@ function Cell({ cel, mostrarNavio, emRadar, afundado, onClick }) {
   if (emRadar) classes.push("cell--radar");
   if (!cel.atingida && onClick) classes.push("cell--clicavel");
 
-  let rotulo = "Água";
-  if (acertou) rotulo = "Acerto";
-  else if (falhou) rotulo = "Falhou";
-  else if (mostrarNavio && cel.navio) rotulo = "Navio";
+  let rotulo = t("celula.agua");
+  if (acertou) rotulo = t("celula.acerto");
+  else if (falhou) rotulo = t("celula.falhou");
+  else if (mostrarNavio && cel.navio) rotulo = t("celula.navio");
 
   return (
     <button

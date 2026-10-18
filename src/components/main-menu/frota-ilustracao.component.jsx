@@ -1,16 +1,18 @@
 import React from "react";
 import "./frota-ilustracao.css";
+import { useT } from "../../i18n";
 
 // Ilustração da frota (porta-aviões, fragata e submarino) a navegar sobre
 // as ondas. Desenhada em SVG para ficar nítida em qualquer ecrã; as cores
 // vêm das variáveis do tema, por isso funciona no modo claro e no escuro.
 function FrotaIlustracao({ className = "" }) {
+  const t = useT();
   return (
     <svg
       className={"frota " + className}
       viewBox="0 0 360 140"
       role="img"
-      aria-label="Porta-aviões, fragata e submarino a navegar"
+      aria-label={t("menu.ilustracao")}
     >
       {/* Gaivotas */}
       <g className="frota__gaivotas">

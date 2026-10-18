@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "./auth.css";
+import { useT } from "../../i18n";
 import { useAuth } from "../../context/AuthContext";
 
 // Ecrã de login/registo. Se o Firebase não estiver configurado, avisa e
 // deixa sempre disponível o botão "continuar como convidado".
 function Auth({ onEntrou, onVoltar }) {
   const { entrar, registar, entrarComoConvidado, erro, firebaseConfigurado } = useAuth();
+  const t = useT();
   const [modo, setModo] = useState("login"); // "login" | "registo"
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -39,23 +41,20 @@ async function handleSubmit(e) {
   return (
     <div id="auth" className="animar-entrada">
       <div className="auth__cartao vidro">
-        <h2>{modo === "login" ? "Entrar" : "Criar Conta"}</h2>
+        <h2>{modo === "login" ? t("auth.entrar") : t("auth.criarConta")}</h2>
         <p className="auth__descricao">
-          Faz login com o teu email para guardar o progresso na nuvem e jogares online contra amigos.
+          {t("auth.descricao")}
         </p>
 
         {!firebaseConfigurado && (
-          <p className="auth__aviso">
-            ⚠️ O login ainda não está configurado neste projeto (falta o ficheiro .env com as chaves do
-            Firebase — ver README). Por agora só podes continuar como convidado.
-          </p>
+          <p className="auth__aviso">{t("auth.naoConfigurado")}</p>
         )}
 
         <form onSubmit={handleSubmit} className="auth__form">
           {modo === "registo" && (
             <input
               type="text"
-              placeholder="O teu nome"
+              placeholder={t("auth.teuNome")}
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               required
@@ -64,7 +63,7 @@ async function handleSubmit(e) {
           )}
           <input
             type="email"
-            placeholder="Email"
+            placeholder={t("auth.email")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -72,7 +71,7 @@ async function handleSubmit(e) {
           />
           <input
             type="password"
-            placeholder="Password (mín. 6 caracteres)"
+            placeholder={t("auth.password")}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -80,10 +79,10 @@ async function handleSubmit(e) {
             disabled={!firebaseConfigurado}
           />
 
-          {erro && <p className="auth__erro">{erro}</p>}
+          {erro && <p className="auth__erro">{t(`auth.erros.${erro}`)}</p>}
 
           <button className="btn btn-primaria" type="submit" disabled={!firebaseConfigurado || aEnviar}>
-            {aEnviar ? "…" : modo === "login" ? "Entrar" : "Criar conta"}
+            {aEnviar ? "…" : modo === "login" ? t("auth.entrar") : t("auth.criarContaBotao")}
           </button>
         </form>
 
@@ -92,18 +91,18 @@ async function handleSubmit(e) {
           onClick={() => setModo(modo === "login" ? "registo" : "login")}
           disabled={!firebaseConfigurado}
         >
-          {modo === "login" ? "Ainda não tens conta? Regista-te" : "Já tens conta? Entrar"}
+          {modo === "login" ? t("auth.semConta") : t("auth.comConta")}
         </button>
 
-        <div className="auth__separador">ou</div>
+        <div className="auth__separador">{t("comum.ou")}</div>
 
         <button className="btn btn-secundaria" onClick={handleConvidado}>
-          👤 Continuar como convidado
+          {t("auth.convidado")}
         </button>
 
         {onVoltar && (
           <button className="auth__voltar" onClick={onVoltar}>
-            ← Voltar ao menu
+            {t("comum.voltarMenu")}
           </button>
         )}
       </div>

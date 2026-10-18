@@ -1,14 +1,16 @@
 import React from "react";
 import "./achievements.css";
+import { useT } from "../../i18n";
 import { CONQUISTAS } from "../../constants";
 
 function Achievements({ desbloqueadas, onVoltar }) {
+  const t = useT();
   return (
     <div id="achievements" className="animar-entrada">
       <div className="achievements__cartao vidro">
-        <h2>Conquistas</h2>
+        <h2>{t("conquistas.titulo")}</h2>
         <p className="achievements__resumo">
-          {desbloqueadas.length} / {CONQUISTAS.length} desbloqueadas
+          {t("conquistas.resumo", desbloqueadas.length, CONQUISTAS.length)}
         </p>
         <div className="achievements__lista">
           {CONQUISTAS.map((c) => {
@@ -20,15 +22,15 @@ function Achievements({ desbloqueadas, onVoltar }) {
               >
                 <span className="achievements__icone">{desbloqueada ? c.icone : "🔒"}</span>
                 <div>
-                  <strong>{c.nome}</strong>
-                  <p>{c.descricao}</p>
+                  <strong>{t(`conquistas.lista.${c.id}.nome`)}</strong>
+                  <p>{t(`conquistas.lista.${c.id}.descricao`)}</p>
                 </div>
               </div>
             );
           })}
         </div>
         <button className="btn btn-primaria" onClick={onVoltar}>
-          ← Voltar
+          {t("comum.voltar")}
         </button>
       </div>
     </div>

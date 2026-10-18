@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./lobby.css";
+import { useT } from "../../i18n";
 import { criarSala, entrarSala } from "../../services/salas";
 import { useAuth } from "../../context/AuthContext";
 
@@ -7,15 +8,16 @@ import { useAuth } from "../../context/AuthContext";
 // amigo) ou entra numa sala existente através do código.
 function Lobby({ onEntrouSala, onVoltar }) {
   const { utilizador } = useAuth();
+  const t = useT();
   const [codigoInput, setCodigoInput] = useState("");
   const [aProcessar, setAProcessar] = useState(false);
   const [erro, setErro] = useState("");
 
-  const nome = utilizador?.displayName || utilizador?.email || "Comandante";
+  const nome = utilizador?.displayName || utilizador?.email || t("lobby.comandante");
 
   async function handleCriar() {
   if (!utilizador) {
-    setErro("Ainda não estás autenticado.");
+    setErro(t("lobby.naoAutenticado"));
     return;
   }
 
@@ -27,7 +29,7 @@ function Lobby({ onEntrouSala, onVoltar }) {
     onEntrouSala(codigo, "A");
   } catch (e) {
     console.error(e);
-    setErro("Não foi possível criar a sala.");
+    setErro(t("lobby.erroCriar"));
   }
 
   setAProcessar(false);
@@ -41,7 +43,11 @@ function Lobby({ onEntrouSala, onVoltar }) {
       const codigo = await entrarSala(codigoInput.trim(), utilizador.uid, nome);
       onEntrouSala(codigo, "B");
     } catch (e) {
-      setErro(e.message || "Não foi possível entrar na sala.");
+      setErro(
+        e.message === "sala-nao-encontrada" || e.message === "sala-cheia"
+          ? t(`lobby.erros.${e.message}`)
+          : t("lobby.erroEntrar")
+      );
     }
     setAProcessar(false);
   }
@@ -49,32 +55,32 @@ function Lobby({ onEntrouSala, onVoltar }) {
   return (
     <div id="lobby" className="animar-entrada">
       <div className="lobby__cartao vidro">
-        <h2>Multiplayer Online</h2>
-        <p className="lobby__descricao">Cria uma sala e envia o código a um amigo, ou entra numa sala existente.</p>
+        <h2>{t("lobby.titulo")}</h2>
+        <p className="lobby__descricao">{t("lobby.descricao")}</p>
 
         <button className="btn btn-primaria" onClick={handleCriar} disabled={aProcessar}>
-          ➕ Criar Sala Nova
+          {t("lobby.criar")}
         </button>
 
-        <div className="lobby__separador">ou</div>
+        <div className="lobby__separador">{t("comum.ou")}</div>
 
         <form onSubmit={handleEntrar} className="lobby__form">
           <input
             type="text"
-            placeholder="Código da sala (ex: A3F9K)"
+            placeholder={t("lobby.placeholderCodigo")}
             value={codigoInput}
             maxLength={6}
             onChange={(e) => setCodigoInput(e.target.value.toUpperCase())}
           />
           <button className="btn btn-secundaria" type="submit" disabled={aProcessar}>
-            Entrar na Sala
+            {t("lobby.entrar")}
           </button>
         </form>
 
         {erro && <p className="lobby__erro">{erro}</p>}
 
         <button className="auth__voltar" onClick={onVoltar}>
-          ← Voltar ao menu
+          {t("comum.voltarMenu")}
         </button>
       </div>
     </div>

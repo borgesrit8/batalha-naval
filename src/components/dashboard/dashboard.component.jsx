@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./dashboard.css";
+import { useT } from "../../i18n";
 import { COMBUSTIVEL_INICIAL } from "../../constants";
 
 // HUD central da partida: turno atual, cronómetro (anel animado),
@@ -16,6 +17,7 @@ function Dashboard({
   onSegundos,
   onRadarAtivado,
 }) {
+  const t = useT();
   const [segundos, setSegundos] = useState(turnoSegundos);
 
   useEffect(() => {
@@ -54,11 +56,11 @@ function Dashboard({
         <div className={"dashboard__turno" + (vezDoJogador ? " dashboard__turno--jogador" : " dashboard__turno--pc")}>
           <span className="dashboard__turno-luz" />
           <span className="dashboard__turno-texto">
-            {vezDoJogador ? `Vez de ${nomeJogador}` : "Vez do computador"}
+            {vezDoJogador ? t("painel.vezDe", nomeJogador) : t("painel.vezPC")}
           </span>
         </div>
 
-        <div className="dashboard__anel" style={anelEstilo} aria-label={`${segundos} segundos`}>
+        <div className="dashboard__anel" style={anelEstilo} aria-label={t("painel.segundos", segundos)}>
           <div className="dashboard__anel-interior">
             <strong>{vezDoJogador ? segundos : "—"}</strong>
           </div>
@@ -68,7 +70,7 @@ function Dashboard({
       <div className="dashboard__base">
         <div className="dashboard__bloco">
           <div className="dashboard__linha-label">
-            <span>⛽ Combustível</span>
+            <span>{t("painel.combustivel")}</span>
             <span>{combustivel}/{COMBUSTIVEL_INICIAL}</span>
           </div>
           <div className="dashboard__barra">
@@ -86,9 +88,9 @@ function Dashboard({
           className={"btn btn-secundaria dashboard__botao" + (radarDisponivel && vezDoJogador ? " dashboard__botao--pronto" : "")}
           onClick={onRadarAtivado}
           disabled={!radarDisponivel || !vezDoJogador}
-          title={radarDisponivel ? "Ativar Radar" : "Radar indisponível"}
+          title={radarDisponivel ? t("painel.ativarRadar") : t("painel.radarIndisponivel")}
         >
-          📡 Radar
+          {t("painel.radar")}
         </button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import "./main-menu.css";
+import { useT } from "../../i18n";
 import FrotaIlustracao from "./frota-ilustracao.component";
 import { useSom } from "../../hooks/useSom";
 import { useAuth } from "../../context/AuthContext";
@@ -15,6 +16,7 @@ function MainMenu({
   onConta,
 }) {
   const tocar = useSom();
+  const t = useT();
   const { utilizador, convidado, sair } = useAuth();
 
   function comSom(fn) {
@@ -39,10 +41,10 @@ function MainMenu({
           onClick={comSom(utilizador ? handleSair : onConta)}
         >
           {utilizador
-            ? `${utilizador.displayName || utilizador.email} · Sair`
+            ? t("menu.sair", utilizador.displayName || utilizador.email)
             : convidado
-            ? "Convidado · Entrar"
-            : "Entrar"}
+            ? t("menu.convidadoEntrar")
+            : t("menu.entrar")}
         </button>
       </div>
 
@@ -52,34 +54,34 @@ function MainMenu({
 
         {/* Título */}
         <h1 className="main-menu__titulo">
-          Batalha <span className="main-menu__titulo-destaque">Naval</span>
+          {t("menu.titulo1")} <span className="main-menu__titulo-destaque">{t("menu.titulo2")}</span>
         </h1>
         <p className="main-menu__subtitulo">
-          Comanda a tua frota. Afunda o inimigo. Domina o oceano.
+          {t("menu.subtitulo")}
         </p>
 
         {/* Botões */}
         <div className="main-menu__botoes">
           <button className="btn btn-primaria main-menu__botao-jogar" onClick={comSom(onJogar)}>
-            ▶ Jogar contra o Computador
+            {t("menu.jogar")}
           </button>
 
           <button className="btn btn-secundaria main-menu__botao-multiplayer" onClick={comSom(onMultiplayer)}>
-            🌐 Multiplayer Online
+            {t("menu.multiplayer")}
           </button>
 
           <div className="main-menu__grelha">
             <button className="btn btn-secundaria" onClick={comSom(onEstatisticas)}>
-              📊 Estatísticas
+              {t("menu.estatisticas")}
             </button>
             <button className="btn btn-secundaria" onClick={comSom(onConquistas)}>
-              🏅 Conquistas
+              {t("menu.conquistas")}
             </button>
             <button className="btn btn-secundaria" onClick={comSom(onComoJogar)}>
-              ❓ Como Jogar
+              {t("menu.comoJogar")}
             </button>
             <button className="btn btn-secundaria" onClick={comSom(onDefinicoes)}>
-              ⚙️ Definições
+              {t("menu.definicoes")}
             </button>
           </div>
         </div>

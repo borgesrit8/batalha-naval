@@ -95,16 +95,19 @@ export function AuthProvider({ children }) {
   );
 }
 
+// Guarda só o código do erro do Firebase; o ecrã de login traduz-o
+// para a língua escolhida (ver i18n/textos.js → auth.erros).
+const ERROS_CONHECIDOS = [
+  "auth/invalid-email",
+  "auth/user-not-found",
+  "auth/wrong-password",
+  "auth/invalid-credential",
+  "auth/email-already-in-use",
+  "auth/weak-password",
+];
+
 function traduzirErro(codigo) {
-  const mapa = {
-    "auth/invalid-email": "Email inválido.",
-    "auth/user-not-found": "Não existe conta com este email.",
-    "auth/wrong-password": "Password incorreta.",
-    "auth/invalid-credential": "Email ou password incorretos.",
-    "auth/email-already-in-use": "Já existe uma conta com este email.",
-    "auth/weak-password": "A password precisa de pelo menos 6 caracteres.",
-  };
-  return mapa[codigo] || "Ocorreu um erro. Tenta novamente.";
+  return ERROS_CONHECIDOS.includes(codigo) ? codigo : "generico";
 }
 
 export function useAuth() {

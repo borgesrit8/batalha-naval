@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import "./online-game.css";
+import { useT } from "../../i18n";
 import Board from "../board/board.component";
 import GameOver from "../game-over/game-over.component";
 import { useAuth } from "../../context/AuthContext";
-import { FROTA, NOMES_NAVIOS } from "../../constants";
+import { FROTA } from "../../constants";
 import {
   criarTabuleiro,
   posicaoValida,
@@ -22,6 +23,7 @@ import { useSom } from "../../hooks/useSom";
 function OnlineGame({ codigo, sou, onSair }) {
   const { utilizador } = useAuth();
   const tocar = useSom();
+  const t = useT();
   const meuUid = utilizador.uid;
 
   const [sala, setSala] = useState(null);
@@ -85,7 +87,7 @@ function OnlineGame({ codigo, sou, onSair }) {
     if (navioAtual >= FROTA.length) return;
     const tamanho = FROTA[navioAtual];
     if (!posicaoValida(tabuleiroProprio, l, c, tamanho, horizontal)) {
-      setErro("Posição inválida.");
+      setErro(t("online.posicaoInvalida"));
       return;
     }
     setErro("");
@@ -125,7 +127,7 @@ function OnlineGame({ codigo, sou, onSair }) {
   if (!sala) {
     return (
       <div id="online-game" className="animar-entrada">
-        <p className="online-game__aviso">A ligar à sala {codigo}…</p>
+        <p className="online-game__aviso">{t("online.aLigar", codigo)}</p>
       </div>
     );
   }
@@ -134,12 +136,12 @@ function OnlineGame({ codigo, sou, onSair }) {
     return (
       <div id="online-game" className="animar-entrada">
         <div className="online-game__cartao vidro">
-          <h2>Sala {codigo}</h2>
-          <p>Partilha este código com um amigo para ele entrar:</p>
+          <h2>{t("online.sala", codigo)}</h2>
+          <p>{t("online.partilha")}</p>
           <p className="online-game__codigo">{codigo}</p>
-          <p className="online-game__aviso">⏳ À espera que o segundo jogador entre…</p>
+          <p className="online-game__aviso">{t("online.aEspera")}</p>
           <button className="auth__voltar" onClick={onSair}>
-            ← Sair da sala
+            {t("online.sairSala")}
           </button>
         </div>
       </div>
@@ -150,45 +152,45 @@ function OnlineGame({ codigo, sou, onSair }) {
     const frotaCompleta = navioAtual >= FROTA.length;
     return (
       <div id="online-game" className="animar-entrada">
-        <h2 className="online-game__titulo">Sala {codigo} — posiciona a tua frota</h2>
+        <h2 className="online-game__titulo">{t("online.posiciona", codigo)}</h2>
         {pronto ? (
-          <p className="online-game__aviso">✅ Frota confirmada! À espera do adversário…</p>
+          <p className="online-game__aviso">{t("online.frotaConfirmada")}</p>
         ) : (
           <div id="setup-layout">
             <div id="setup-controlos" className="vidro">
               <fieldset>
-                <legend>Orientação</legend>
+                <legend>{t("online.orientacao")}</legend>
                 <div className="setup-orientacao">
                   <button className={"btn btn-secundaria" + (horizontal ? " is-ativo" : "")} onClick={() => setHorizontal(true)}>
-                    ↔ Horizontal
+                    {t("setup.horizontal")}
                   </button>
                   <button className={"btn btn-secundaria" + (!horizontal ? " is-ativo" : "")} onClick={() => setHorizontal(false)}>
-                    ↕ Vertical
+                    {t("setup.vertical")}
                   </button>
                 </div>
               </fieldset>
               <div id="lista-navios">
                 {FROTA.map((tamanho, i) => (
                   <p key={i} className={i < navioAtual ? "setup__navio--feito" : i === navioAtual ? "setup__navio--atual" : "setup__navio"}>
-                    {i < navioAtual ? "✔" : i === navioAtual ? "▶" : "○"} {NOMES_NAVIOS[tamanho]} ({tamanho})
+                    {i < navioAtual ? "✔" : i === navioAtual ? "▶" : "○"} {t(`navios.${tamanho}`)} ({tamanho})
                   </p>
                 ))}
               </div>
               <div className="setup-acoes-rapidas">
                 <button className="btn btn-secundaria" onClick={() => { setTabuleiroProprio(criarTabuleiro()); setNavioAtual(0); }}>
-                  Reiniciar
+                  {t("setup.reiniciar")}
                 </button>
                 <button className="btn btn-secundaria" onClick={() => { setTabuleiroProprio(gerarFrotaAleatoria()); setNavioAtual(FROTA.length); }}>
-                  🎲 Auto-colocar
+                  {t("setup.autoColocar")}
                 </button>
               </div>
               {erro && <p className="setup__erro">{erro}</p>}
               <button className="btn btn-primaria setup__iniciar" onClick={handleConfirmarFrota} disabled={!frotaCompleta}>
-                ✅ Confirmar Frota
+                {t("online.confirmar")}
               </button>
             </div>
             <Board
-              titulo="A tua frota"
+              titulo={t("jogo.tuaFrota")}
               tabuleiro={tabuleiroProprio}
               mostrarNavios
               radarArea={null}
@@ -202,13 +204,15 @@ function OnlineGame({ codigo, sou, onSair }) {
   }
 
   if (sala.estado === "fim") {
-    const nomeVencedor = sala.vencedor === meuUid ? "Tu" : sala.jogadorA.uid === sala.vencedor ? sala.jogadorA.nome : sala.jogadorB.nome;
+    const tu = t("online.tu");
+    const nomeVencedor = sala.vencedor === meuUid ? tu : sala.jogadorA.uid === sala.vencedor ? sala.jogadorA.nome : sala.jogadorB.nome;
     const meusTiros = jogadas.filter((j) => j.atirador === meuUid);
     const acertos = meusTiros.filter((j) => j.resultado === true).length;
     return (
       <GameOver
         vencedor={nomeVencedor}
-        nomeJogador="Tu"
+        nomeJogador={tu}
+        textoDerrota={t("fim.perdesteOnline", nomeVencedor)}
         jogadas={meusTiros.length}
         precisao={calcularPrecisao(meusTiros.length, acertos)}
         moedasGanhas={sala.vencedor === meuUid ? 20 : 5}
@@ -226,13 +230,13 @@ function OnlineGame({ codigo, sou, onSair }) {
   return (
     <div id="online-game" className="animar-entrada">
       <header className="jogo-cabecalho">
-        <h1>Sala {codigo} — vs {nomeAdversario}</h1>
-        <p>{minhaVez ? "É a tua vez de disparar!" : `A aguardar disparo de ${nomeAdversario}…`}</p>
+        <h1>{t("online.contra", codigo, nomeAdversario)}</h1>
+        <p>{minhaVez ? t("online.tuaVez") : t("online.aguardar", nomeAdversario)}</p>
       </header>
       <main id="jogo-layout">
-        <Board titulo="A tua frota" tabuleiro={tabuleiroProprio} mostrarNavios radarArea={null} onCellClick={null} />
+        <Board titulo={t("jogo.tuaFrota")} tabuleiro={tabuleiroProprio} mostrarNavios radarArea={null} onCellClick={null} />
         <Board
-          titulo={"Tabuleiro de " + nomeAdversario}
+          titulo={t("online.tabuleiroDe", nomeAdversario)}
           tabuleiro={tabuleiroAdversarioVisivel}
           mostrarNavios={false}
           radarArea={null}
@@ -242,7 +246,7 @@ function OnlineGame({ codigo, sou, onSair }) {
         />
       </main>
       <button className="auth__voltar" onClick={onSair}>
-        ← Abandonar partida
+        {t("online.abandonar")}
       </button>
     </div>
   );

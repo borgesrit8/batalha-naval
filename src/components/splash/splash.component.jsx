@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./splash.css";
+import { useT } from "../../i18n";
 import FrotaIlustracao from "../main-menu/frota-ilustracao.component";
 
 // Ecrã de arranque com barra de progresso simulada — dá uma sensação de
 // app "profissional" e disfarça o tempo de inicialização do áudio/estado.
 function Splash({ onTerminar }) {
+  const t = useT();
   const [progresso, setProgresso] = useState(0);
 
   useEffect(() => {
@@ -29,11 +31,11 @@ function Splash({ onTerminar }) {
   return (
     <div id="splash">
       <FrotaIlustracao className="splash__frota" />
-      <h1 className="splash__titulo">Batalha Naval</h1>
+      <h1 className="splash__titulo">{t("splash.titulo")}</h1>
       <div className="splash__barra">
         <div className="splash__barra-preenchimento" style={{ width: progresso + "%" }} />
       </div>
-      <p className="splash__texto">A preparar a frota… {progresso}%</p>
+      <p className="splash__texto">{t("splash.aCarregar", progresso)}</p>
     </div>
   );
 }
