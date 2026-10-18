@@ -17,7 +17,7 @@ import {
   OnlineGame,
 } from "./components";
 import { Capacitor } from "@capacitor/core";
-import { AdMob, BannerAdSize, BannerAdPosition } from "@capacitor-community/admob";
+import { AdMob, BannerAdSize, BannerAdPosition, MaxAdContentRating } from "@capacitor-community/admob";
 import { DefinicoesProvider, useDefinicoes } from "./context/DefinicoesContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { carregarProgresso, guardarProgresso, fundirProgresso } from "./services/progresso";
@@ -78,6 +78,8 @@ function JogoInterno() {
       try {
         await AdMob.initialize({
           initializeForTesting: true,
+          // Só anúncios adequados a todas as idades (sem conteúdo adulto)
+          maxAdContentRating: MaxAdContentRating.General,
         });
 
         await AdMob.showBanner({
