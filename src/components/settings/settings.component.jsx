@@ -5,7 +5,7 @@ import { useDefinicoes } from "../../context/DefinicoesContext";
 import { useAuth } from "../../context/AuthContext";
 import { DIFICULDADES } from "../../constants";
 import { IDIOMAS } from "../../i18n/textos";
-import { abrirOpcoesPrivacidade, ouvirOpcoesPrivacidade } from "../../services/anuncios";
+import { abrirOpcoesPrivacidade, ouvirOpcoesPrivacidade, ouvirEstadoAnuncios } from "../../services/anuncios";
 
 // Ecrã de definições: tema, som, música e dificuldade. Tudo é lido/escrito
 // através do DefinicoesContext, que já trata da persistência.
@@ -19,7 +19,10 @@ function Settings({ onVoltar }) {
   const [apagada, setApagada] = useState(false);
   const [mostrarPrivacidade, setMostrarPrivacidade] = useState(false);
 
+  const [estadoAnuncios, setEstadoAnuncios] = useState("");
+
   useEffect(() => ouvirOpcoesPrivacidade(setMostrarPrivacidade), []);
+  useEffect(() => ouvirEstadoAnuncios(setEstadoAnuncios), []);
 
   async function handleApagar(e) {
     e.preventDefault();
@@ -170,6 +173,8 @@ function Settings({ onVoltar }) {
         )}
 
         {apagada && <p className="settings__sucesso">{t("definicoes.contaApagada")}</p>}
+
+        {estadoAnuncios && <p className="settings__diagnostico">Ads: {estadoAnuncios}</p>}
 
         <button className="btn btn-primaria settings__voltar" onClick={onVoltar}>
           {t("comum.voltar")}

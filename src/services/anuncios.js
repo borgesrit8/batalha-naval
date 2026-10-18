@@ -24,36 +24,74 @@ export function ouvirOpcoesPrivacidade(f) {
   return () => ouvintes.delete(f);
 }
 
-// 1) Inicia o AdMob  2) Pergunta o consentimento (RGPD) se for preciso
-// 3) Só mostra o banner se o Google disser que já se podem pedir anúncios.
+// Texto curto com o estado do consentimento, mostrado nas Definições
+// (ajuda a perceber porque é que os anúncios não aparecem).
+let estadoAnuncios = "";
+const ouvintesEstado = new Set();
+
+function definirEstado(texto) {
+  estadoAnuncios = texto;
+  ouvintesEstado.forEach((f) => f(texto));
+}
+
+export function ouvirEstadoAnuncios(f) {
+  ouvintesEstado.add(f);
+  f(estadoAnuncios);
+  return () => ouvintesEstado.delete(f);
+}
+
+function textoErro(erro) {
+  return (erro && (erro.message || erro.errorMessage)) || String(erro);
+}
+
+async function mostrarBanner() {
+  await AdMob.showBanner({
+    adId: ID_BANNER,
+    adSize: BannerAdSize.ADAPTIVE_BANNER,
+    position: BannerAdPosition.BOTTOM_CENTER,
+  });
+  // Reserva espaço em baixo para o banner não tapar os botões
+  document.body.classList.add("com-anuncio");
+}
+
+// 1) Pergunta o consentimento (RGPD) se for preciso  2) Inicia o AdMob
+// 3) Mostra o banner. Se o pedido de consentimento der erro, o banner é
+// mostrado na mesma: sem consentimento, o Google só mostra anúncios
+// limitados (não personalizados).
 export async function iniciarAnuncios() {
   if (!Capacitor.isNativePlatform()) return;
+
+  let podeMostrar = true;
+  try {
+    let info = await AdMob.requestConsentInfo();
+    let passo = `${info.status}, form=${info.isConsentFormAvailable ? "sim" : "não"}`;
+    if (info.isConsentFormAvailable && info.status === AdmobConsentStatus.REQUIRED) {
+      try {
+        info = await AdMob.showConsentForm();
+        passo += ` → ${info.status}`;
+      } catch (erro) {
+        passo += ` → erro janela: ${textoErro(erro)}`;
+      }
+    }
+    precisaOpcoesPrivacidade = info.privacyOptionsRequirementStatus === "REQUIRED";
+    avisar();
+    podeMostrar = info.canRequestAds !== false;
+    definirEstado(`${passo}, anúncios=${podeMostrar ? "sim" : "não"}`);
+  } catch (erro) {
+    definirEstado(`erro consentimento: ${textoErro(erro)}`);
+  }
+
+  if (!podeMostrar) return;
+
   try {
     await AdMob.initialize({
       initializeForTesting: true,
       // Só anúncios adequados a todas as idades (sem conteúdo adulto)
       maxAdContentRating: MaxAdContentRating.General,
     });
-
-    let info = await AdMob.requestConsentInfo();
-    if (info.isConsentFormAvailable && info.status === AdmobConsentStatus.REQUIRED) {
-      info = await AdMob.showConsentForm();
-    }
-
-    precisaOpcoesPrivacidade =
-      info.privacyOptionsRequirementStatus === "REQUIRED";
-    avisar();
-
-    if (!info.canRequestAds) return;
-
-    await AdMob.showBanner({
-      adId: ID_BANNER,
-      adSize: BannerAdSize.ADAPTIVE_BANNER,
-      position: BannerAdPosition.BOTTOM_CENTER,
-    });
-    // Reserva espaço em baixo para o banner não tapar os botões
-    document.body.classList.add("com-anuncio");
+    await mostrarBanner();
   } catch (erro) {
+    definirEstado(`${estadoAnuncios} | erro banner: ${textoErro(erro)}`);
     console.warn("[AdMob] Não foi possível mostrar o anúncio:", erro);
   }
 }

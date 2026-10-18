@@ -175,3 +175,9 @@
   font-size: 0.85rem;
   padding: 9px 14px;
 }
+
+.settings__diagnostico {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  word-break: break-word;
+}
