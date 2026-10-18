@@ -118,6 +118,16 @@ const pt = {
     ligada: "🎵 Ligada",
     desligada: "🔈 Desligada",
     dificuldade: "Dificuldade da IA",
+    conta: "Conta",
+    contaDescricao: (email) => `Tens sessão iniciada como ${email}.`,
+    apagarConta: "🗑️ Apagar conta",
+    apagarAviso:
+      "Isto apaga a tua conta e o progresso guardado na nuvem (estatísticas e conquistas). Não pode ser desfeito. Para confirmar, escreve a tua palavra-passe.",
+    passwordConfirmar: "A tua palavra-passe",
+    cancelar: "Cancelar",
+    apagarDefinitivo: "Apagar definitivamente",
+    aApagar: "A apagar…",
+    contaApagada: "✅ A tua conta foi apagada.",
   },
 
   dificuldades: {
@@ -185,6 +195,9 @@ const pt = {
       "auth/invalid-credential": "Email ou password incorretos.",
       "auth/email-already-in-use": "Já existe uma conta com este email.",
       "auth/weak-password": "A password precisa de pelo menos 6 caracteres.",
+      "auth/missing-password": "Escreve a tua palavra-passe.",
+      "auth/requires-recent-login": "Por segurança, sai e volta a entrar antes de apagar a conta.",
+      "auth/too-many-requests": "Demasiadas tentativas. Espera um pouco e tenta de novo.",
       generico: "Ocorreu um erro. Tenta novamente.",
     },
   },
@@ -333,6 +346,16 @@ const en = {
     ligada: "🎵 On",
     desligada: "🔈 Off",
     dificuldade: "AI difficulty",
+    conta: "Account",
+    contaDescricao: (email) => `You're signed in as ${email}.`,
+    apagarConta: "🗑️ Delete account",
+    apagarAviso:
+      "This deletes your account and the progress saved in the cloud (statistics and achievements). It can't be undone. To confirm, enter your password.",
+    passwordConfirmar: "Your password",
+    cancelar: "Cancel",
+    apagarDefinitivo: "Delete permanently",
+    aApagar: "Deleting…",
+    contaApagada: "✅ Your account has been deleted.",
   },
 
   dificuldades: {
@@ -400,6 +423,9 @@ const en = {
       "auth/invalid-credential": "Wrong email or password.",
       "auth/email-already-in-use": "An account with this email already exists.",
       "auth/weak-password": "The password needs at least 6 characters.",
+      "auth/missing-password": "Enter your password.",
+      "auth/requires-recent-login": "For security, sign out and sign in again before deleting your account.",
+      "auth/too-many-requests": "Too many attempts. Wait a moment and try again.",
       generico: "Something went wrong. Please try again.",
     },
   },

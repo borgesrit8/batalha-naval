@@ -4,7 +4,7 @@
 // que o jogador as recupere em qualquer dispositivo onde faça login.
 // O localStorage continua a ser a fonte de dados quando não há sessão.
 // ============================================================
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, setDoc, deleteDoc, serverTimestamp } from "firebase/firestore";
 import { db, firebaseConfigurado } from "../lib/firebase";
 
 export async function carregarProgresso(uid) {
@@ -22,6 +22,12 @@ export async function guardarProgresso(uid, estatisticas, desbloqueadas) {
     { estatisticas, desbloqueadas, atualizadoEm: serverTimestamp() },
     { merge: true }
   );
+}
+
+// Apaga o progresso guardado na nuvem (usado quando o jogador apaga a conta).
+export async function apagarProgresso(uid) {
+  if (!firebaseConfigurado || !uid) return;
+  await deleteDoc(doc(db, "users", uid));
 }
 
 // Junta o progresso local com o da nuvem ficando sempre com o "melhor"

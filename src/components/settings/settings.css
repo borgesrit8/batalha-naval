@@ -105,3 +105,67 @@
 .settings__idiomas .settings__toggle {
   min-width: 130px;
 }
+
+/* Conta: apagar conta */
+.settings__conta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--linha);
+}
+
+.settings__apagar {
+  align-self: flex-start;
+  color: var(--red);
+  border-color: var(--red);
+  font-size: 0.85rem;
+  padding: 9px 14px;
+}
+
+.settings__confirmar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--red);
+  background: rgba(217, 59, 43, 0.06);
+}
+
+.settings__confirmar p {
+  font-size: 0.82rem;
+  color: var(--text-primary);
+}
+
+.settings__confirmar input {
+  padding: 11px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--linha);
+  background: var(--painel);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.settings__confirmar-botoes {
+  display: flex;
+  gap: 8px;
+}
+
+.settings__confirmar-botoes .btn {
+  flex: 1;
+  padding: 10px;
+  font-size: 0.85rem;
+}
+
+.settings__erro {
+  color: var(--red);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.settings__sucesso {
+  color: var(--green);
+  font-size: 0.85rem;
+  font-weight: 600;
+}

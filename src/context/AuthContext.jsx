@@ -5,8 +5,12 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   updateProfile,
+  deleteUser,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
 } from "firebase/auth";
 import { auth, firebaseConfigurado } from "../lib/firebase";
+import { apagarProgresso } from "../services/progresso";
 
 const AuthContext = createContext(null);
 
@@ -72,6 +76,30 @@ export function AuthProvider({ children }) {
     setConvidado(true);
   }
 
+  // Apaga a conta de vez: confirma a palavra-passe (o Firebase exige um
+  // login recente), apaga o progresso na nuvem e depois o utilizador.
+  async function apagarConta(password) {
+    setErro("");
+    const u = firebaseConfigurado ? auth.currentUser : null;
+    if (!u) return false;
+    try {
+      const credencial = EmailAuthProvider.credential(u.email, password);
+      await reauthenticateWithCredential(u, credencial);
+      await apagarProgresso(u.uid);
+      await deleteUser(u);
+      setUtilizador(null);
+      setConvidado(true);
+      return true;
+    } catch (e) {
+      setErro(traduzirErro(e.code));
+      return false;
+    }
+  }
+
+  function limparErro() {
+    setErro("");
+  }
+
   function entrarComoConvidado() {
     setConvidado(true);
   }
@@ -87,6 +115,8 @@ export function AuthProvider({ children }) {
         entrar,
         registar,
         sair,
+        apagarConta,
+        limparErro,
         entrarComoConvidado,
       }}
     >
@@ -104,6 +134,9 @@ const ERROS_CONHECIDOS = [
   "auth/invalid-credential",
   "auth/email-already-in-use",
   "auth/weak-password",
+  "auth/missing-password",
+  "auth/requires-recent-login",
+  "auth/too-many-requests",
 ];
 
 function traduzirErro(codigo) {
