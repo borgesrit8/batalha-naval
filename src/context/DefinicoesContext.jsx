@@ -43,6 +43,7 @@ export function DefinicoesProvider({ children }) {
 
   useEffect(() => {
     document.documentElement.setAttribute("lang", definicoes.idioma === "en" ? "en" : "pt");
+    document.title = definicoes.idioma === "en" ? "Advanced Battleship" : "Batalha Naval Avançada";
   }, [definicoes.idioma]);
 
   function atualizarDefinicao(chave, valor) {
