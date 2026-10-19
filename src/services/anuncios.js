@@ -40,6 +40,14 @@ export function ouvirEstadoAnuncios(f) {
   return () => ouvintesEstado.delete(f);
 }
 
+// Se o Google não responder, não fica à espera para sempre.
+function comLimite(promessa, ms, mensagem) {
+  return Promise.race([
+    promessa,
+    new Promise((_, rejeitar) => setTimeout(() => rejeitar(new Error(mensagem)), ms)),
+  ]);
+}
+
 function textoErro(erro) {
   return (erro && (erro.message || erro.errorMessage)) || String(erro);
 }
@@ -62,8 +70,9 @@ export async function iniciarAnuncios() {
   if (!Capacitor.isNativePlatform()) return;
 
   let podeMostrar = true;
+  definirEstado("a pedir consentimento…");
   try {
-    let info = await AdMob.requestConsentInfo();
+    let info = await comLimite(AdMob.requestConsentInfo(), 10000, "sem resposta (10s)");
     let passo = `${info.status}, form=${info.isConsentFormAvailable ? "sim" : "não"}`;
     if (info.isConsentFormAvailable && info.status === AdmobConsentStatus.REQUIRED) {
       try {
@@ -84,12 +93,14 @@ export async function iniciarAnuncios() {
   if (!podeMostrar) return;
 
   try {
-    await AdMob.initialize({
+    definirEstado(`${estadoAnuncios} | a iniciar anúncios…`);
+    await comLimite(AdMob.initialize({
       initializeForTesting: true,
       // Só anúncios adequados a todas as idades (sem conteúdo adulto)
       maxAdContentRating: MaxAdContentRating.General,
-    });
-    await mostrarBanner();
+    }), 10000, "initialize sem resposta");
+    await comLimite(mostrarBanner(), 15000, "banner sem resposta");
+    definirEstado(estadoAnuncios.replace(" | a iniciar anúncios…", " | banner ok"));
   } catch (erro) {
     definirEstado(`${estadoAnuncios} | erro banner: ${textoErro(erro)}`);
     console.warn("[AdMob] Não foi possível mostrar o anúncio:", erro);

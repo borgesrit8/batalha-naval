@@ -174,7 +174,10 @@ function Settings({ onVoltar }) {
 
         {apagada && <p className="settings__sucesso">{t("definicoes.contaApagada")}</p>}
 
-        {estadoAnuncios && <p className="settings__diagnostico">Ads: {estadoAnuncios}</p>}
+        <p className="settings__diagnostico">
+          build {__BUILD__}
+          {estadoAnuncios && ` · Ads: ${estadoAnuncios}`}
+        </p>
 
         <button className="btn btn-primaria settings__voltar" onClick={onVoltar}>
           {t("comum.voltar")}
