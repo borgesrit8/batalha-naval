@@ -454,7 +454,11 @@ function JogoInterno() {
       {fase === FASES.SETUP && <Setup onIniciar={handleIniciar} onVoltarMenu={() => setFase(FASES.MENU)} />}
 
       {fase === FASES.JOGO && (
-          <main id="jogo" className="animar-entrada">
+          <main
+            id="jogo"
+            className={"animar-entrada jogo-alvo" + (vezDoJogador ? " jogo-alvo--inimigo" : " jogo-alvo--meu")}
+          >
+            <div className="jogo__topo">
             <Dashboard
               nomeJogador={nomeJogador}
               vezDoJogador={vezDoJogador}
@@ -469,7 +473,7 @@ function JogoInterno() {
               onRadarAtivado={handleRadar}
             />
 
-            <div className={"jogo-alvo" + (vezDoJogador ? " jogo-alvo--inimigo" : " jogo-alvo--meu")}>
+            <div className="jogo__info">
               <div className="jogo-alvo__cabecalho">
                 <h2>{vezDoJogador ? t("jogo.frotaInimiga") : t("jogo.tuaFrota")}</h2>
                 <span className="jogo-alvo__frota">
@@ -487,6 +491,8 @@ function JogoInterno() {
                   </li>
                 ))}
               </ul>
+            </div>
+            </div>
 
               <div key={vezDoJogador ? "pc" : "jogador"} className="jogo-alvo__tabuleiro">
                 <Board
@@ -499,14 +505,13 @@ function JogoInterno() {
                 />
               </div>
 
-              <p
-                key={mensagem ? mensagem.chave + jogadas : "vazio"}
-                className={"jogo-mensagem" + (mensagem ? " jogo-mensagem--" + mensagem.tipo : "")}
-                role="status"
-              >
-                {textoMensagem(mensagem)}
-              </p>
-            </div>
+            <p
+              key={mensagem ? mensagem.chave + jogadas : "vazio"}
+              className={"jogo-mensagem" + (mensagem ? " jogo-mensagem--" + mensagem.tipo : "")}
+              role="status"
+            >
+              {textoMensagem(mensagem)}
+            </p>
           </main>
       )}
 
@@ -526,7 +531,7 @@ function JogoInterno() {
 
       {novasConquistas.length > 0 && fase === FASES.FIM && <AchievementToast conquistas={novasConquistas} />}
 
-      {fase !== FASES.SPLASH && (
+      {fase !== FASES.SPLASH && fase !== FASES.JOGO && (
         <footer className="rodape-global">
           <p>© 2026 Naval Clash. All rights reserved.</p>
         </footer>
