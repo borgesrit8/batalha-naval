@@ -17,6 +17,7 @@ import {
   OnlineGame,
 } from "./components";
 import { iniciarAnuncios, pararAnuncios } from "./services/anuncios";
+import Decoracao from "./components/decoracao/decoracao.component";
 import { DefinicoesProvider, useDefinicoes } from "./context/DefinicoesContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { carregarProgresso, guardarProgresso, fundirProgresso } from "./services/progresso";
@@ -415,6 +416,8 @@ function JogoInterno() {
   const frota = fase === FASES.JOGO ? contarNavios(tabVisivel) : { total: 0, restantes: 0 };
 
   return (
+    <>
+    {fase !== FASES.SPLASH && <Decoracao />}
     <div id="container">
       {fase === FASES.SPLASH && <Splash onTerminar={() => setFase(FASES.MENU)} />}
 
@@ -516,6 +519,7 @@ function JogoInterno() {
         </footer>
       )}
     </div>
+    </>
   );
 }
 

@@ -1,0 +1,106 @@
+/* Camada decorativa fixa, atrás de todo o conteúdo */
+.decoracao {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.decoracao__rosa {
+  position: absolute;
+  right: -40px;
+  top: -30px;
+  width: 190px;
+  height: 190px;
+  fill: none;
+  stroke: var(--linha);
+  stroke-width: 2;
+}
+
+.decoracao__rosa-ponta {
+  fill: var(--surface-strong);
+}
+
+.decoracao__gaivotas {
+  position: absolute;
+  left: 34px;
+  top: calc(var(--safe-top, 0px) + 96px);
+  width: 60px;
+  height: 22px;
+  fill: none;
+  stroke: var(--text-muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.55;
+  animation: decoracao-voo 7s ease-in-out infinite;
+}
+
+.decoracao__gaivota-longe {
+  opacity: 0.7;
+}
+
+.decoracao__mar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 150px;
+}
+
+.decoracao__onda--1 {
+  fill: var(--agua);
+  animation: decoracao-ondas 9s ease-in-out infinite;
+}
+
+.decoracao__onda--2 {
+  fill: var(--agua-borda);
+  animation: decoracao-ondas 7s ease-in-out infinite reverse;
+}
+
+.decoracao__ilha {
+  fill: var(--linha);
+}
+
+.decoracao__farol-torre {
+  fill: var(--painel);
+  stroke: var(--cel-borda);
+}
+
+.decoracao__farol-faixa {
+  fill: var(--acerto);
+}
+
+.decoracao__farol-topo,
+.decoracao__navio {
+  fill: var(--navio-claro);
+}
+
+.decoracao__navio {
+  opacity: 0.55;
+  transform: translate(270px, 76px);
+  animation: decoracao-navio 6s ease-in-out infinite;
+}
+
+@keyframes decoracao-ondas {
+  50% { transform: translateX(-24px); }
+}
+
+@keyframes decoracao-navio {
+  0%, 100% { transform: translate(270px, 76px) rotate(0deg); }
+  50% { transform: translate(266px, 73px) rotate(-2deg); }
+}
+
+@keyframes decoracao-voo {
+  50% { transform: translate(14px, -6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .decoracao * { animation: none !important; }
+}
+
+/* O conteúdo do jogo fica por cima da decoração */
+#container {
+  position: relative;
+  z-index: 1;
+}
