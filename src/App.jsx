@@ -417,7 +417,7 @@ function JogoInterno() {
 
   return (
     <>
-    {fase !== FASES.SPLASH && <Decoracao />}
+    {fase !== FASES.SPLASH && <Decoracao comMar={fase !== FASES.MENU} />}
     <div id="container">
       {fase === FASES.SPLASH && <Splash onTerminar={() => setFase(FASES.MENU)} />}
 

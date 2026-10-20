@@ -2,10 +2,10 @@ import React from "react";
 import "./decoracao.css";
 
 // Decoração de fundo, comum a todos os ecrãs: rosa-dos-ventos num canto,
-// gaivotas, e ondas com um farol e um navio ao longe no fundo do ecrã.
+// gaivotas, e (fora do menu) ondas com um farol e um navio ao longe no fundo do ecrã.
 // Fica atrás de tudo e não reage a toques. Usa as cores do tema, por isso
 // funciona no modo claro e no escuro.
-function Decoracao() {
+function Decoracao({ comMar = true }) {
   return (
     <div className="decoracao" aria-hidden="true">
       <svg className="decoracao__rosa" viewBox="0 0 190 190">
@@ -22,6 +22,7 @@ function Decoracao() {
         <path className="decoracao__gaivota-longe" d="M34 18 Q38 13 42 17 Q46 13 50 18" />
       </svg>
 
+      {comMar && (
       <svg className="decoracao__mar" viewBox="0 0 390 150" preserveAspectRatio="xMidYMax slice">
         <g transform="translate(36 40)" className="decoracao__farol">
           <path className="decoracao__ilha" d="M-14 62 Q0 46 14 62 Z" />
@@ -43,6 +44,7 @@ function Decoracao() {
           d="M0 118 Q24 108 48 118 T96 118 T144 118 T192 118 T240 118 T288 118 T336 118 T384 118 T432 118 T480 118 V150 H0 Z"
         />
       </svg>
+      )}
     </div>
   );
 }
