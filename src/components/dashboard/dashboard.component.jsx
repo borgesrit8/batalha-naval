@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./dashboard.css";
 import { useT } from "../../i18n";
-import { COMBUSTIVEL_INICIAL } from "../../constants";
+import { COMBUSTIVEL_INICIAL, COMBUSTIVEL_BAIXO } from "../../constants";
 
 // HUD central da partida: turno atual, cronómetro (anel animado),
 // combustível (barra com gradiente), e radar.
@@ -9,6 +9,7 @@ function Dashboard({
   nomeJogador,
   vezDoJogador,
   combustivel,
+  usarCombustivel = true,
   radarDisponivel,
   jogoAtivo,
   turnoId,
@@ -71,17 +72,20 @@ function Dashboard({
         <div className="dashboard__bloco">
           <div className="dashboard__linha-label">
             <span>{t("painel.combustivel")}</span>
-            <span>{combustivel}/{COMBUSTIVEL_INICIAL}</span>
+            <span>{usarCombustivel ? `${combustivel}/${COMBUSTIVEL_INICIAL}` : t("painel.semLimite")}</span>
           </div>
           <div className="dashboard__barra">
             <div
               className="dashboard__barra-preenchimento"
               style={{
-                width: percentCombustivel + "%",
-                background: percentCombustivel > 40 ? "var(--acento)" : "var(--red)",
+                width: (usarCombustivel ? percentCombustivel : 100) + "%",
+                background: !usarCombustivel || percentCombustivel > 40 ? "var(--acento)" : "var(--red)",
               }}
             />
           </div>
+          {usarCombustivel && combustivel <= COMBUSTIVEL_BAIXO && (
+            <p className="dashboard__aviso">{t("painel.combustivelBaixo")}</p>
+          )}
         </div>
 
         <button

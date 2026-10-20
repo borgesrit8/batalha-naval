@@ -22,6 +22,8 @@ function Setup({ onIniciar, onVoltarMenu }) {
   const [navioAtual, setNavioAtual] = useState(0);
   const [horizontal, setHorizontal] = useState(true);
   const [erro, setErro] = useState("");
+  // Tabuleiros anteriores, para poder desfazer o último navio colocado
+  const [historico, setHistorico] = useState([]);
 
   const [frotaPC, setFrotaPC] = useState("aleatorio");
   const [tabuleiroPC, setTabuleiroPC] = useState(criarTabuleiro());
@@ -54,18 +56,30 @@ function Setup({ onIniciar, onVoltarMenu }) {
     tocar("clique");
     const id = "j-" + navioAtual;
     const novoTabuleiro = colocarNavio(tabuleiro, l, c, tamanho, horizontal, id);
+    setHistorico([...historico, tabuleiro]);
     setTabuleiro(novoTabuleiro);
     setNavioAtual(navioAtual + 1);
   }
 
+  function handleDesfazer() {
+    if (historico.length === 0) return;
+    tocar("clique");
+    setTabuleiro(historico[historico.length - 1]);
+    setHistorico(historico.slice(0, -1));
+    setNavioAtual(navioAtual - 1);
+    setErro("");
+  }
+
   function handleReiniciar() {
     setTabuleiro(criarTabuleiro());
+    setHistorico([]);
     setNavioAtual(0);
     setErro("");
   }
 
   function handleColocarAleatorio() {
     setTabuleiro(gerarFrotaAleatoria());
+    setHistorico([]);
     setNavioAtual(FROTA.length);
     setErro("");
   }
@@ -156,10 +170,22 @@ function Setup({ onIniciar, onVoltarMenu }) {
           >
             {t("setup.vertical")}
           </button>
+          <button
+            type="button"
+            className="btn btn-secundaria"
+            onClick={handleDesfazer}
+            disabled={historico.length === 0}
+          >
+            {t("setup.desfazer")}
+          </button>
           <button type="button" className="btn btn-secundaria" onClick={handleReiniciar}>
             {t("setup.reiniciar")}
           </button>
-          <button type="button" className="btn btn-secundaria" onClick={handleColocarAleatorio}>
+          <button
+            type="button"
+            className="btn btn-secundaria setup-grelha-botoes__largo"
+            onClick={handleColocarAleatorio}
+          >
             {t("setup.autoColocar")}
           </button>
         </div>

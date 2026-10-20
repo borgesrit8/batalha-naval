@@ -14,7 +14,9 @@ export const FROTA = [5, 4, 3, 3, 2, 2];
 export const COMBUSTIVEL_INICIAL = 100;
 export const CUSTO_DISPARO = 5;
 export const CUSTO_TEMPO_ESGOTADO = 5;
-export const RECUPERAR_COMBUSTIVEL_ACERTO = 10;
+export const RECUPERAR_COMBUSTIVEL_ACERTO = 15;
+// Abaixo deste valor o painel avisa que o combustível está a acabar
+export const COMBUSTIVEL_BAIXO = 20;
 
 export const TURNO_SEGUNDOS = 15;
 export const RADAR_SEGUNDOS = 3;
@@ -56,6 +58,8 @@ export const DIFICULDADES = {
     usarParidade: false,
     chanceErroPerseguicao: 0.35,
     turnoSegundos: 20,
+    // No Fácil não há limite de combustível
+    usarCombustivel: false,
   },
   normal: {
     id: "normal",
@@ -64,6 +68,7 @@ export const DIFICULDADES = {
     usarParidade: false,
     chanceErroPerseguicao: 0.08,
     turnoSegundos: 15,
+    usarCombustivel: true,
   },
   dificil: {
     id: "dificil",
@@ -72,6 +77,7 @@ export const DIFICULDADES = {
     usarParidade: true,
     chanceErroPerseguicao: 0,
     turnoSegundos: 12,
+    usarCombustivel: true,
   },
 };
 

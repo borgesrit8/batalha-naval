@@ -175,3 +175,7 @@
   width: 100%;
   padding: 12px;
 }
+
+.setup-grelha-botoes__largo {
+  grid-column: 1 / -1;
+}

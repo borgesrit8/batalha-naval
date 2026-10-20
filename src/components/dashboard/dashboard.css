@@ -123,3 +123,15 @@
   color: var(--sobre-gold);
   animation: pulsar 1.2s infinite;
 }
+
+.dashboard__aviso {
+  margin-top: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--red);
+  animation: aviso-pulsar 1.2s ease-in-out infinite;
+}
+
+@keyframes aviso-pulsar {
+  50% { opacity: 0.45; }
+}

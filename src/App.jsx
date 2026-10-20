@@ -27,6 +27,8 @@ import {
   DIFICULDADES,
   MOEDAS_POR_VITORIA,
   MOEDAS_POR_DERROTA,
+  RECUPERAR_COMBUSTIVEL_ACERTO,
+  CUSTO_TEMPO_ESGOTADO,
 } from "./constants";
 import { useT } from "./i18n";
 import {
@@ -219,8 +221,9 @@ function JogoInterno() {
   function handleDisparo(l, c) {
     if (!vezDoJogador || aguardar || fase !== FASES.JOGO) return;
 
-    const novoCombustivel = combustivel - CUSTO_DISPARO;
-    if (novoCombustivel <= 0) {
+    const usaCombustivel = dificuldadeAtual.usarCombustivel;
+    const novoCombustivel = usaCombustivel ? combustivel - CUSTO_DISPARO : combustivel;
+    if (usaCombustivel && novoCombustivel <= 0) {
       tocar("agua");
       setMotivoDerrota("combustivel");
       setVencedor("Computador");
@@ -236,7 +239,7 @@ function JogoInterno() {
 
     let combustivelFinal = novoCombustivel;
     if (acertou) {
-      combustivelFinal = Math.min(COMBUSTIVEL_INICIAL, novoCombustivel + 10);
+      combustivelFinal = Math.min(COMBUSTIVEL_INICIAL, novoCombustivel + RECUPERAR_COMBUSTIVEL_ACERTO);
     }
 
     const segundosUsados = dificuldadeAtual.turnoSegundos - segundosRestantes;
@@ -341,8 +344,9 @@ function JogoInterno() {
   function handleTempoEsgotado() {
     if (!vezDoJogador || aguardar || fase !== FASES.JOGO) return;
 
-    const novoCombustivel = combustivel - 5;
-    if (novoCombustivel <= 0) {
+    const usaCombustivel = dificuldadeAtual.usarCombustivel;
+    const novoCombustivel = usaCombustivel ? combustivel - CUSTO_TEMPO_ESGOTADO : combustivel;
+    if (usaCombustivel && novoCombustivel <= 0) {
       setMotivoDerrota("combustivel");
       setVencedor("Computador");
       setFase(FASES.FIM);
@@ -450,6 +454,7 @@ function JogoInterno() {
               nomeJogador={nomeJogador}
               vezDoJogador={vezDoJogador}
               combustivel={combustivel}
+              usarCombustivel={dificuldadeAtual.usarCombustivel}
               radarDisponivel={radarDisponivel && !aguardar}
               jogoAtivo={fase === FASES.JOGO && !aguardar}
               turnoId={turnoId}
@@ -507,7 +512,7 @@ function JogoInterno() {
 
       {fase !== FASES.SPLASH && (
         <footer className="rodape-global">
-          <p>© 2026 Fleetoria. All rights reserved.</p>
+          <p>© 2026 Naval Clash. All rights reserved.</p>
         </footer>
       )}
     </div>
