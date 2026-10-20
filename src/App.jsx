@@ -124,6 +124,8 @@ function JogoInterno() {
   const [combustivel, setCombustivel] = useState(COMBUSTIVEL_INICIAL);
   const [jogadas, setJogadas] = useState(0);
   const [vencedor, setVencedor] = useState("");
+  // Porque é que o jogador perdeu: "frota" (afundaram-lhe tudo) ou "combustivel"
+  const [motivoDerrota, setMotivoDerrota] = useState("frota");
 
   const [tirosJogador, setTirosJogador] = useState(0);
   const [tirosCertosJogador, setTirosCertosJogador] = useState(0);
@@ -164,6 +166,7 @@ function JogoInterno() {
     setTirosJogador(0);
     setTirosCertosJogador(0);
     setVencedor("");
+    setMotivoDerrota("frota");
     setRadarDisponivel(false);
     setRadarArea(null);
     setModoIA("aleatorio");
@@ -219,6 +222,7 @@ function JogoInterno() {
     const novoCombustivel = combustivel - CUSTO_DISPARO;
     if (novoCombustivel <= 0) {
       tocar("agua");
+      setMotivoDerrota("combustivel");
       setVencedor("Computador");
       setFase(FASES.FIM);
       return;
@@ -339,6 +343,7 @@ function JogoInterno() {
 
     const novoCombustivel = combustivel - 5;
     if (novoCombustivel <= 0) {
+      setMotivoDerrota("combustivel");
       setVencedor("Computador");
       setFase(FASES.FIM);
       return;
@@ -492,6 +497,7 @@ function JogoInterno() {
           precisao={calcularPrecisao(tirosJogador, tirosCertosJogador)}
           moedasGanhas={vencedor === nomeJogador ? MOEDAS_POR_VITORIA : MOEDAS_POR_DERROTA}
           novasConquistas={novasConquistas}
+          textoDerrota={motivoDerrota === "combustivel" ? t("fim.semCombustivel") : undefined}
           onJogarNovamente={() => setFase(FASES.SETUP)}
           onMenu={() => setFase(FASES.MENU)}
         />
