@@ -1,0 +1,64 @@
+.dica {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  background: var(--painel);
+  border: 2px solid var(--acento);
+  box-shadow: var(--shadow-strong);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: surgir 0.25s ease both;
+}
+
+.dica__titulo {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--acento);
+}
+
+.dica__lista {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.dica__botao {
+  align-self: flex-end;
+  padding: 9px 18px;
+  font-size: 0.85rem;
+}
+
+.dica__fundo {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15, 31, 51, 0.45);
+}
+
+.dica--flutuante {
+  max-width: 380px;
+}
+
+/* Pergunta "já jogaste antes?" */
+.pergunta-dicas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+
+.pergunta-dicas__botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

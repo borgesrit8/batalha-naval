@@ -18,6 +18,28 @@ const pt = {
 
   navios: { 5: "Porta-aviões", 4: "Fragata", 3: "Cruzador", 2: "Submarino" },
 
+  dicas: {
+    pergunta: "Já jogaste Batalha Naval antes?",
+    perguntaDescricao: "Se for a primeira vez, mostramos umas dicas rápidas durante o primeiro jogo.",
+    sim: "Sim, já sei jogar",
+    nao: "Não, mostra-me dicas",
+    percebi: "Percebi",
+    colocarTitulo: "Coloca a tua frota",
+    colocar: [
+      "Toca numa casa do tabuleiro para colocar o navio que está a azul na lista.",
+      "Usa ↔ Horizontal / ↕ Vertical para rodar o navio antes de o colocar.",
+      "Enganaste-te? Usa ↩ Desfazer. Com pressa? Usa Auto-colocar.",
+    ],
+    jogoTitulo: "Como atacar",
+    jogo: [
+      "Toca numa casa do tabuleiro inimigo para disparar.",
+      "Se acertares, jogas outra vez. Se falhares, é a vez do computador.",
+      "Afunda todos os navios inimigos antes que ele afunde os teus!",
+    ],
+    combustivel: "Cada tiro gasta combustível e só os acertos o recarregam. Se acabar, perdes!",
+    tempo: "Tens um tempo limite por jogada. Acertos rápidos desbloqueiam o Radar.",
+  },
+
   splash: {
     titulo: "Batalha Naval",
     aCarregar: (p) => `A preparar a frota… ${p}%`,
@@ -121,6 +143,8 @@ const pt = {
     musicaDescricao: "Ambiente sonoro oceânico.",
     ligada: "🎵 Ligada",
     desligada: "🔈 Desligada",
+    dicas: "Dicas para iniciantes",
+    dicasDescricao: "Mostra ajuda no próximo jogo.",
     dificuldade: "Dificuldade da IA",
     privacidade: "Privacidade dos anúncios",
     privacidadeDescricao: "Muda a tua escolha sobre anúncios personalizados.",
@@ -255,6 +279,28 @@ const en = {
 
   navios: { 5: "Carrier", 4: "Frigate", 3: "Cruiser", 2: "Submarine" },
 
+  dicas: {
+    pergunta: "Have you played Battleship before?",
+    perguntaDescricao: "If it's your first time, we'll show a few quick tips during your first game.",
+    sim: "Yes, I know how to play",
+    nao: "No, show me tips",
+    percebi: "Got it",
+    colocarTitulo: "Place your fleet",
+    colocar: [
+      "Tap a cell on the board to place the ship highlighted in blue in the list.",
+      "Use ↔ Horizontal / ↕ Vertical to rotate the ship before placing it.",
+      "Made a mistake? Use ↩ Undo. In a hurry? Use Auto-place.",
+    ],
+    jogoTitulo: "How to attack",
+    jogo: [
+      "Tap a cell on the enemy board to fire.",
+      "If you hit, you play again. If you miss, it's the computer's turn.",
+      "Sink all enemy ships before it sinks yours!",
+    ],
+    combustivel: "Every shot uses fuel and only hits refill it. If it runs out, you lose!",
+    tempo: "Each turn has a time limit. Quick hits unlock the Radar.",
+  },
+
   splash: {
     titulo: "Battleship",
     aCarregar: (p) => `Preparing the fleet… ${p}%`,
@@ -356,6 +402,8 @@ const en = {
     musicaDescricao: "Ocean ambience.",
     ligada: "🎵 On",
     desligada: "🔈 Off",
+    dicas: "Beginner tips",
+    dicasDescricao: "Show help in the next game.",
     dificuldade: "AI difficulty",
     privacidade: "Ad privacy",
     privacidadeDescricao: "Change your choice about personalised ads.",

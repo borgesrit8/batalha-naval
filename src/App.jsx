@@ -18,6 +18,7 @@ import {
 } from "./components";
 import { iniciarAnuncios, pararAnuncios } from "./services/anuncios";
 import Decoracao from "./components/decoracao/decoracao.component";
+import Dica from "./components/dica/dica.component";
 import { DefinicoesProvider, useDefinicoes } from "./context/DefinicoesContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { carregarProgresso, guardarProgresso, fundirProgresso } from "./services/progresso";
@@ -79,7 +80,9 @@ function JogoInterno() {
     return pararAnuncios;
   }, []);
 
-  const { definicoes } = useDefinicoes();
+  const { definicoes, atualizarDefinicao } = useDefinicoes();
+  // Dica do primeiro jogo (só para quem pediu dicas)
+  const [dicaJogoVista, setDicaJogoVista] = useState(false);
   const { utilizador } = useAuth();
   const { estatisticas, registarJogo, definirEstatisticas } = useEstatisticas();
   const { desbloqueadas, verificarNovasConquistas, definirDesbloqueadas } = useConquistas();
@@ -160,6 +163,7 @@ function JogoInterno() {
   }
 
   function handleIniciar(dados) {
+    setDicaJogoVista(false);
     setNomeJogador(dados.nome);
     setTabJogador(dados.tabJogador);
     setTabPC(dados.tabPC);
@@ -394,6 +398,10 @@ function JogoInterno() {
     if (fase !== FASES.FIM || jogoRegistadoRef.current) return;
     jogoRegistadoRef.current = true;
 
+    // Depois do primeiro jogo com dicas, deixam de aparecer
+    // (podem ser ligadas outra vez nas Definições).
+    if (definicoes.dicas === true) atualizarDefinicao("dicas", false);
+
     const venceu = vencedor === nomeJogador;
     const resumo = registarJogo({
       venceu,
@@ -414,6 +422,7 @@ function JogoInterno() {
   }, [fase]);
 
   const tabVisivel = vezDoJogador ? tabPC : tabJogador;
+  const mostrarDicaJogo = fase === FASES.JOGO && definicoes.dicas === true && !dicaJogoVista;
   const frota = fase === FASES.JOGO ? contarNavios(tabVisivel) : { total: 0, restantes: 0 };
   const navios = fase === FASES.JOGO ? listaNavios(tabVisivel) : [];
 
@@ -465,7 +474,7 @@ function JogoInterno() {
               combustivel={combustivel}
               usarCombustivel={dificuldadeAtual.usarCombustivel}
               radarDisponivel={radarDisponivel && !aguardar}
-              jogoAtivo={fase === FASES.JOGO && !aguardar}
+              jogoAtivo={fase === FASES.JOGO && !aguardar && !mostrarDicaJogo}
               turnoId={turnoId}
               turnoSegundos={dificuldadeAtual.turnoSegundos}
               onTempoEsgotado={handleTempoEsgotado}
@@ -504,6 +513,19 @@ function JogoInterno() {
                   destacado={vezDoJogador}
                 />
               </div>
+
+            {mostrarDicaJogo && (
+              <Dica
+                flutuante
+                titulo={t("dicas.jogoTitulo")}
+                itens={[
+                  ...t("dicas.jogo"),
+                  ...(dificuldadeAtual.usarCombustivel ? [t("dicas.combustivel")] : []),
+                  t("dicas.tempo"),
+                ]}
+                onFechar={() => setDicaJogoVista(true)}
+              />
+            )}
 
             <p
               key={mensagem ? mensagem.chave + jogadas : "vazio"}

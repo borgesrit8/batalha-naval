@@ -10,10 +10,15 @@ import {
   gerarFrotaAleatoria,
 } from "../../utils/tabuleiro";
 import { useSom } from "../../hooks/useSom";
+import { useDefinicoes } from "../../context/DefinicoesContext";
+import Dica from "../dica/dica.component";
 
 function Setup({ onIniciar, onVoltarMenu }) {
   const tocar = useSom();
   const t = useT();
+  const { definicoes, atualizarDefinicao } = useDefinicoes();
+  // Dica da colocação: só para quem disse que é a primeira vez
+  const [dicaColocarVista, setDicaColocarVista] = useState(false);
 
   const [nome, setNome] = useState("");
   const [nomeConfirmado, setNomeConfirmado] = useState(false);
@@ -92,6 +97,26 @@ function Setup({ onIniciar, onVoltarMenu }) {
 
   const frotaCompleta = navioAtual >= FROTA.length;
 
+  // Primeira vez: pergunta se já conhece o jogo, antes de colocar os navios
+  if (nomeConfirmado && definicoes.dicas === undefined) {
+    return (
+      <div id="setup" className="animar-entrada">
+        <div className="setup-boasvindas vidro pergunta-dicas">
+          <h2>{t("dicas.pergunta")}</h2>
+          <p>{t("dicas.perguntaDescricao")}</p>
+          <div className="pergunta-dicas__botoes">
+            <button className="btn btn-primaria" onClick={() => atualizarDefinicao("dicas", true)}>
+              {t("dicas.nao")}
+            </button>
+            <button className="btn btn-secundaria" onClick={() => atualizarDefinicao("dicas", false)}>
+              {t("dicas.sim")}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!nomeConfirmado) {
     return (
       <div id="setup" className="animar-entrada">
@@ -129,6 +154,14 @@ function Setup({ onIniciar, onVoltarMenu }) {
   return (
     <div id="setup" className="setup--compacto animar-entrada">
       <h2 className="setup__titulo">{t("setup.titulo", nome)}</h2>
+
+      {definicoes.dicas === true && !dicaColocarVista && (
+        <Dica
+          titulo={t("dicas.colocarTitulo")}
+          itens={t("dicas.colocar")}
+          onFechar={() => setDicaColocarVista(true)}
+        />
+      )}
 
       <Board
         titulo={null}

@@ -98,6 +98,19 @@ function Settings({ onVoltar }) {
           </button>
         </div>
 
+        <div className="settings__linha">
+          <div>
+            <p className="settings__label">{t("definicoes.dicas")}</p>
+            <p className="settings__descricao">{t("definicoes.dicasDescricao")}</p>
+          </div>
+          <button
+            className={"btn btn-secundaria settings__toggle" + (definicoes.dicas ? " is-ativo" : "")}
+            onClick={() => atualizarDefinicao("dicas", !definicoes.dicas)}
+          >
+            {definicoes.dicas ? t("definicoes.ligado") : t("definicoes.desligado")}
+          </button>
+        </div>
+
         <div className="settings__bloco-dificuldade">
           <p className="settings__label">{t("definicoes.dificuldade")}</p>
           <div className="settings__dificuldades">
