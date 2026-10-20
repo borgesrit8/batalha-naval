@@ -42,6 +42,7 @@ import {
   calcularPrecisao,
   navioAfundadoNestaCelula,
   contarNavios,
+  listaNavios,
   tamanhoNavio,
 } from "./utils/tabuleiro";
 import { useEstatisticas } from "./hooks/useEstatisticas";
@@ -414,6 +415,7 @@ function JogoInterno() {
 
   const tabVisivel = vezDoJogador ? tabPC : tabJogador;
   const frota = fase === FASES.JOGO ? contarNavios(tabVisivel) : { total: 0, restantes: 0 };
+  const navios = fase === FASES.JOGO ? listaNavios(tabVisivel) : [];
 
   return (
     <>
@@ -474,6 +476,17 @@ function JogoInterno() {
                   {t("jogo.naviosAFlutuar", frota.restantes, frota.total)}
                 </span>
               </div>
+
+              <ul className="jogo-alvo__navios" aria-label={t("jogo.naviosAFlutuar", frota.restantes, frota.total)}>
+                {navios.map((n) => (
+                  <li key={n.id} className={"jogo-alvo__navio" + (n.afundado ? " jogo-alvo__navio--afundado" : "")}>
+                    <span className="jogo-alvo__navio-blocos" aria-hidden="true">
+                      {Array.from({ length: n.tamanho }, (_, i) => <span key={i} />)}
+                    </span>
+                    {t(`navios.${n.tamanho}`)}
+                  </li>
+                ))}
+              </ul>
 
               <div key={vezDoJogador ? "pc" : "jogador"} className="jogo-alvo__tabuleiro">
                 <Board

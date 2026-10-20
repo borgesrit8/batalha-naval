@@ -152,6 +152,22 @@ export function contarNavios(tab) {
   return { total: todos.size, restantes: porAfundar.size };
 }
 
+// Lista dos navios de um tabuleiro, do maior para o menor, com o tamanho
+// e se já foi afundado — para mostrar quais faltam afundar.
+export function listaNavios(tab) {
+  const navios = new Map();
+  for (const linha of tab) {
+    for (const cel of linha) {
+      if (cel.navio === null) continue;
+      const n = navios.get(cel.navio) || { id: cel.navio, tamanho: 0, afundado: true };
+      n.tamanho++;
+      if (!cel.atingida) n.afundado = false;
+      navios.set(cel.navio, n);
+    }
+  }
+  return [...navios.values()].sort((a, b) => b.tamanho - a.tamanho);
+}
+
 // Tamanho (n.º de células) do navio com este id.
 export function tamanhoNavio(tab, id) {
   let n = 0;
