@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./settings.css";
 import { useT } from "../../i18n";
 import { useDefinicoes } from "../../context/DefinicoesContext";
 import { useAuth } from "../../context/AuthContext";
 import { DIFICULDADES } from "../../constants";
 import { IDIOMAS } from "../../i18n/textos";
-import { abrirOpcoesPrivacidade, ouvirOpcoesPrivacidade, ouvirEstadoAnuncios } from "../../services/anuncios";
 
 // Ecrã de definições: tema, som, música e dificuldade. Tudo é lido/escrito
 // através do DefinicoesContext, que já trata da persistência.
@@ -17,12 +16,8 @@ function Settings({ onVoltar }) {
   const [password, setPassword] = useState("");
   const [aApagar, setAApagar] = useState(false);
   const [apagada, setApagada] = useState(false);
-  const [mostrarPrivacidade, setMostrarPrivacidade] = useState(false);
 
-  const [estadoAnuncios, setEstadoAnuncios] = useState("");
 
-  useEffect(() => ouvirOpcoesPrivacidade(setMostrarPrivacidade), []);
-  useEffect(() => ouvirEstadoAnuncios(setEstadoAnuncios), []);
 
   async function handleApagar(e) {
     e.preventDefault();
@@ -127,16 +122,6 @@ function Settings({ onVoltar }) {
           </div>
         </div>
 
-        {mostrarPrivacidade && (
-          <div className="settings__conta">
-            <p className="settings__label">{t("definicoes.privacidade")}</p>
-            <p className="settings__descricao">{t("definicoes.privacidadeDescricao")}</p>
-            <button className="btn btn-secundaria settings__privacidade" onClick={abrirOpcoesPrivacidade}>
-              {t("definicoes.privacidadeBotao")}
-            </button>
-          </div>
-        )}
-
         {utilizador && !utilizador.isAnonymous && (
           <div className="settings__conta">
             <p className="settings__label">{t("definicoes.conta")}</p>
@@ -189,7 +174,6 @@ function Settings({ onVoltar }) {
 
         <p className="settings__diagnostico">
           build {__BUILD__}
-          {estadoAnuncios && ` · Ads: ${estadoAnuncios}`}
         </p>
 
         <button className="btn btn-primaria settings__voltar" onClick={onVoltar}>

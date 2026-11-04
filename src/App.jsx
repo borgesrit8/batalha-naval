@@ -16,7 +16,6 @@ import {
   Lobby,
   OnlineGame,
 } from "./components";
-import { iniciarAnuncios, pararAnuncios } from "./services/anuncios";
 import Decoracao from "./components/decoracao/decoracao.component";
 import Dica from "./components/dica/dica.component";
 import { DefinicoesProvider, useDefinicoes } from "./context/DefinicoesContext";
@@ -73,13 +72,6 @@ function sortear(probabilidade) {
 }
 
 function JogoInterno() {
-  // Anúncios (AdMob) só na app Android: pede o consentimento (RGPD)
-  // e depois mostra o banner no fundo do ecrã.
-  useEffect(() => {
-    iniciarAnuncios();
-    return pararAnuncios;
-  }, []);
-
   const { definicoes, atualizarDefinicao } = useDefinicoes();
   // Dica do primeiro jogo (só para quem pediu dicas)
   const [dicaJogoVista, setDicaJogoVista] = useState(false);

@@ -13,7 +13,6 @@
     "cap:open:android": "cap open android"
   },
   "dependencies": {
-    "@capacitor-community/admob": "^7.2.0",
     "firebase": "^11.0.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
