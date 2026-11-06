@@ -95,8 +95,19 @@ export const ESTATISTICAS_INICIAIS = {
   tirosDisparados: 0,
   tirosCertos: 0,
   navioMaisRapido: null, // menor nº de jogadas numa vitória
-  moedas: 0,
+  moedas: 0, // total de moedas ganhas (o saldo desconta os temas comprados)
+  temasComprados: [],
 };
+
+// Temas do tabuleiro à venda na loja (as cores estão em src/index.css).
+// O preço é em moedas; "classico" é o tema de origem, grátis.
+export const TEMAS_TABULEIRO = [
+  { id: "classico", preco: 0 },
+  { id: "porDoSol", preco: 100 },
+  { id: "gelo", preco: 200 },
+  { id: "noite", preco: 300 },
+  { id: "lava", preco: 500 },
+];
 
 // Conquistas desbloqueáveis. `verificar` recebe as estatísticas ATUALIZADAS
 // (depois do jogo terminar) e devolve true se a conquista deve desbloquear.

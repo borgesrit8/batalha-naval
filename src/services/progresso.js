@@ -47,6 +47,9 @@ export function fundirProgresso(local, nuvem) {
         ? remoto.navioMaisRapido
         : Math.min(estatisticas.navioMaisRapido, remoto.navioMaisRapido);
   }
+  estatisticas.temasComprados = Array.from(
+    new Set([...(local.estatisticas.temasComprados || []), ...(remoto.temasComprados || [])])
+  );
   const desbloqueadas = Array.from(new Set([...(local.desbloqueadas || []), ...(nuvem.desbloqueadas || [])]));
   return { estatisticas, desbloqueadas };
 }

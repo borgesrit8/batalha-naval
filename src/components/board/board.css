@@ -18,7 +18,7 @@
 }
 
 .board {
-  background: var(--painel);
+  background: var(--tab-fundo, var(--painel));
   border: 1px solid var(--linha);
   box-shadow: var(--shadow-soft);
   display: flex;
@@ -40,7 +40,7 @@
   justify-content: center;
   font-size: 0.65rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--tab-rotulo, var(--text-muted));
   flex-shrink: 0;
 }
 

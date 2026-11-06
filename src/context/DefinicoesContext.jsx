@@ -13,6 +13,7 @@ const DEFINICOES_INICIAIS = {
   somAtivo: true,
   musicaAtiva: true,
   dificuldade: "normal", // "facil" | "normal" | "dificil"
+  temaTabuleiro: "classico", // tema comprado na loja
 };
 
 const DefinicoesContext = createContext(null);
@@ -24,6 +25,7 @@ function migrarDefinicoes(guardadas) {
   }
   // Quem já tinha a app antes de haver línguas fica com a do telemóvel
   if (!def.idioma) def = { ...def, idioma: idiomaDoDispositivo() };
+  if (!def.temaTabuleiro) def = { ...def, temaTabuleiro: "classico" };
   return def;
 }
 
@@ -40,6 +42,13 @@ export function DefinicoesProvider({ children }) {
   useEffect(() => {
     document.documentElement.setAttribute("data-tema", definicoes.tema);
   }, [definicoes.tema]);
+
+  // Tema do tabuleiro: uma classe no <html> troca as cores das casas
+  useEffect(() => {
+    const raiz = document.documentElement;
+    [...raiz.classList].filter((c) => c.startsWith("tabuleiro-tema--")).forEach((c) => raiz.classList.remove(c));
+    raiz.classList.add("tabuleiro-tema--" + definicoes.temaTabuleiro);
+  }, [definicoes.temaTabuleiro]);
 
   useEffect(() => {
     document.documentElement.setAttribute("lang", definicoes.idioma === "en" ? "en" : "pt");

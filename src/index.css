@@ -239,3 +239,64 @@ button {
 @media (max-width: 480px) {
   html { font-size: 15px; }
 }
+
+/* ============================================================
+   TEMAS DO TABULEIRO (loja). Mudam só as cores do tabuleiro e
+   valem por cima do modo claro/escuro. A mesma classe é usada
+   nas pré-visualizações da loja.
+   ============================================================ */
+:is(html, .tema-preview).tabuleiro-tema--porDoSol {
+  --cel: #fde7d3;
+  --cel-borda: #f6cfae;
+  --agua: #ffd0a3;
+  --agua-borda: #f5b17c;
+  --navio: #5b2a4a;
+  --navio-claro: #7a3d63;
+  --acerto: #e8452c;
+  --afundado: #8e1c1c;
+  --cruz: #9a5f45;
+  --tab-fundo: #fff6ee;
+  --tab-rotulo: #9a5f45;
+}
+
+:is(html, .tema-preview).tabuleiro-tema--gelo {
+  --cel: #eaf8fc;
+  --cel-borda: #c9ebf3;
+  --agua: #c4ecf7;
+  --agua-borda: #9fdcec;
+  --navio: #24627c;
+  --navio-claro: #3a83a1;
+  --acerto: #ff7a59;
+  --afundado: #b33a2a;
+  --cruz: #5c97aa;
+  --tab-fundo: #f7fdff;
+  --tab-rotulo: #4f8a9c;
+}
+
+:is(html, .tema-preview).tabuleiro-tema--noite {
+  --cel: #1c2650;
+  --cel-borda: #2b3a70;
+  --agua: #2a3c7a;
+  --agua-borda: #3b5199;
+  --navio: #f2c94c;
+  --navio-claro: #f7da7f;
+  --acerto: #ff6b6b;
+  --afundado: #c0392b;
+  --cruz: #a9b6e6;
+  --tab-fundo: #121a3a;
+  --tab-rotulo: #a9b6e6;
+}
+
+:is(html, .tema-preview).tabuleiro-tema--lava {
+  --cel: #3a1f1a;
+  --cel-borda: #5a2c22;
+  --agua: #6b2a16;
+  --agua-borda: #8a3a1c;
+  --navio: #ffb347;
+  --navio-claro: #ffc876;
+  --acerto: #ffd23f;
+  --afundado: #ff5722;
+  --cruz: #e0a283;
+  --tab-fundo: #2a1612;
+  --tab-rotulo: #e0a283;
+}

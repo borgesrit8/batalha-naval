@@ -152,6 +152,17 @@ export function contarNavios(tab) {
   return { total: todos.size, restantes: porAfundar.size };
 }
 
+// Moedas disponíveis: as ganhas menos o preço dos temas já comprados.
+// (Guardar o total ganho e a lista de compras, em vez do saldo, deixa a
+// sincronização com a nuvem juntar os dois lados sem perder compras.)
+export function saldoMoedas(estatisticas, temas) {
+  const comprados = estatisticas.temasComprados || [];
+  const gasto = temas
+    .filter((tema) => comprados.includes(tema.id))
+    .reduce((soma, tema) => soma + tema.preco, 0);
+  return Math.max(0, (estatisticas.moedas || 0) - gasto);
+}
+
 // Lista dos navios de um tabuleiro, do maior para o menor, com o tamanho
 // e se já foi afundado — para mostrar quais faltam afundar.
 export function listaNavios(tab) {

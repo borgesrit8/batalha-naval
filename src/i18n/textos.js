@@ -40,6 +40,26 @@ const pt = {
     tempo: "Tens um tempo limite por jogada. Acertos rápidos desbloqueiam o Radar.",
   },
 
+  loja: {
+    titulo: "Loja de temas",
+    descricao: "Usa as moedas que ganhas a jogar para mudar as cores do tabuleiro.",
+    saldo: (n) => `🪙 ${n} moedas`,
+    temas: {
+      classico: "Clássico",
+      porDoSol: "Pôr do sol",
+      gelo: "Gelo",
+      noite: "Noite",
+      lava: "Lava",
+    },
+    gratis: "Grátis",
+    usar: "Usar",
+    emUso: "✓ Em uso",
+    comprar: (preco) => `Comprar · 🪙 ${preco}`,
+    faltam: (n) => `Faltam ${n} moedas`,
+    comprado: "Tema comprado! 🎉",
+    voltar: "← Voltar",
+  },
+
   splash: {
     titulo: "Naval Clash",
     aCarregar: (p) => `A preparar a frota… ${p}%`,
@@ -55,6 +75,7 @@ const pt = {
     conquistas: "🏅 Conquistas",
     comoJogar: "❓ Como Jogar",
     definicoes: "⚙️ Definições",
+    loja: "🛒 Loja de temas",
     sair: (nome) => `${nome} · Sair`,
     convidadoEntrar: "Convidado · Entrar",
     entrar: "Entrar",
@@ -301,6 +322,26 @@ const en = {
     tempo: "Each turn has a time limit. Quick hits unlock the Radar.",
   },
 
+  loja: {
+    titulo: "Theme shop",
+    descricao: "Use the coins you earn by playing to change the board colours.",
+    saldo: (n) => `🪙 ${n} coins`,
+    temas: {
+      classico: "Classic",
+      porDoSol: "Sunset",
+      gelo: "Ice",
+      noite: "Night",
+      lava: "Lava",
+    },
+    gratis: "Free",
+    usar: "Use",
+    emUso: "✓ In use",
+    comprar: (preco) => `Buy · 🪙 ${preco}`,
+    faltam: (n) => `${n} more coins needed`,
+    comprado: "Theme bought! 🎉",
+    voltar: "← Back",
+  },
+
   splash: {
     titulo: "Naval Clash",
     aCarregar: (p) => `Preparing the fleet… ${p}%`,
@@ -316,6 +357,7 @@ const en = {
     conquistas: "🏅 Achievements",
     comoJogar: "❓ How to Play",
     definicoes: "⚙️ Settings",
+    loja: "🛒 Theme shop",
     sair: (nome) => `${nome} · Sign out`,
     convidadoEntrar: "Guest · Sign in",
     entrar: "Sign in",
