@@ -41,13 +41,13 @@ const pt = {
   },
 
   splash: {
-    titulo: "Batalha Naval",
+    titulo: "Naval Clash",
     aCarregar: (p) => `A preparar a frota… ${p}%`,
   },
 
   menu: {
-    titulo1: "Batalha",
-    titulo2: "Naval",
+    titulo1: "Naval",
+    titulo2: "Clash",
     subtitulo: "Comanda a tua frota. Afunda o inimigo. Domina o oceano.",
     jogar: "▶ Jogar contra o Computador",
     multiplayer: "🌐 Multiplayer Online",
@@ -62,7 +62,7 @@ const pt = {
   },
 
   setup: {
-    tituloBoasVindas: "Batalha Naval Avançada",
+    tituloBoasVindas: "Naval Clash",
     pedirNome: "Introduz o teu nome de comandante para começar:",
     placeholderNome: "O teu nome...",
     continuar: "Continuar",
@@ -302,13 +302,13 @@ const en = {
   },
 
   splash: {
-    titulo: "Battleship",
+    titulo: "Naval Clash",
     aCarregar: (p) => `Preparing the fleet… ${p}%`,
   },
 
   menu: {
     titulo1: "Naval",
-    titulo2: "Battle",
+    titulo2: "Clash",
     subtitulo: "Command your fleet. Sink the enemy. Rule the ocean.",
     jogar: "▶ Play vs Computer",
     multiplayer: "🌐 Online Multiplayer",
@@ -323,7 +323,7 @@ const en = {
   },
 
   setup: {
-    tituloBoasVindas: "Advanced Battleship",
+    tituloBoasVindas: "Naval Clash",
     pedirNome: "Enter your commander name to start:",
     placeholderNome: "Your name...",
     continuar: "Continue",
