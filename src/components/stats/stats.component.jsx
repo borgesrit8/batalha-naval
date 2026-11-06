@@ -16,7 +16,6 @@ function Stats({ estatisticas, onVoltar }) {
     { label: t("estatisticas.taxaVitoria"), valor: taxaVitoria + "%", icone: "📈" },
     { label: t("estatisticas.precisao"), valor: precisao + "%", icone: "🎯" },
     { label: t("estatisticas.melhorPartida"), valor: estatisticas.navioMaisRapido ?? "—", icone: "⚡" },
-    { label: t("estatisticas.moedas"), valor: estatisticas.moedas, icone: "🪙" },
   ];
 
   return (
