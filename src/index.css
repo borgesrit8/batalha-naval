@@ -245,7 +245,8 @@ button {
    valem por cima do modo claro/escuro. A mesma classe é usada
    nas pré-visualizações da loja.
    ============================================================ */
-:is(html, .tema-preview).tabuleiro-tema--doces {
+html.tabuleiro-tema--doces :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--doces {
   --cel: #ffe3ef;
   --cel-borda: #ffc9de;
   --agua: #c9f4e4;
@@ -259,7 +260,8 @@ button {
   --tab-rotulo: #c06a8f;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--mar {
+html.tabuleiro-tema--mar :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--mar {
   --cel: #d2f5f5;
   --cel-borda: #aeeaea;
   --agua: #9fe3e6;
@@ -273,7 +275,8 @@ button {
   --tab-rotulo: #2f8f99;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--unicornio {
+html.tabuleiro-tema--unicornio :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--unicornio {
   --cel: #eee6ff;
   --cel-borda: #dcd0fb;
   --agua: #d6ecff;
@@ -287,7 +290,8 @@ button {
   --tab-rotulo: #9a86c9;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--dinos {
+html.tabuleiro-tema--dinos :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--dinos {
   --cel: #dcefcf;
   --cel-borda: #c3e2ae;
   --agua: #b9dfa0;
@@ -301,7 +305,8 @@ button {
   --tab-rotulo: #5d7f45;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--porDoSol {
+html.tabuleiro-tema--porDoSol :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--porDoSol {
   --cel: #fde7d3;
   --cel-borda: #f6cfae;
   --agua: #ffd0a3;
@@ -315,7 +320,8 @@ button {
   --tab-rotulo: #9a5f45;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--naval {
+html.tabuleiro-tema--naval :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--naval {
   --cel: #c9d1d9;
   --cel-borda: #aeb8c2;
   --agua: #b4c2cf;
@@ -329,7 +335,8 @@ button {
   --tab-rotulo: #44576b;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--noite {
+html.tabuleiro-tema--noite :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--noite {
   --cel: #1c2650;
   --cel-borda: #2b3a70;
   --agua: #2a3c7a;
@@ -343,7 +350,8 @@ button {
   --tab-rotulo: #a9b6e6;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--minimal {
+html.tabuleiro-tema--minimal :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--minimal {
   --cel: #ffffff;
   --cel-borda: #d9d9d9;
   --agua: #eeeeee;
@@ -357,7 +365,8 @@ button {
   --tab-rotulo: #555555;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--mapa {
+html.tabuleiro-tema--mapa :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--mapa {
   --cel: #f1e3c3;
   --cel-borda: #dcc79c;
   --agua: #e2cc9c;
@@ -371,7 +380,8 @@ button {
   --tab-rotulo: #7a5c3a;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--carnaval {
+html.tabuleiro-tema--carnaval :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--carnaval {
   --cel: #f7ecff;
   --cel-borda: #e3cff7;
   --agua: #fff3b0;
@@ -385,7 +395,8 @@ button {
   --tab-rotulo: #f3e3ff;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--namorados {
+html.tabuleiro-tema--namorados :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--namorados {
   --cel: #ffe8ee;
   --cel-borda: #ffc9d6;
   --agua: #ffd6e0;
@@ -399,7 +410,8 @@ button {
   --tab-rotulo: #d1527a;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--pascoa {
+html.tabuleiro-tema--pascoa :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--pascoa {
   --cel: #fffbea;
   --cel-borda: #f3ead0;
   --agua: #e3f4ff;
@@ -413,7 +425,8 @@ button {
   --tab-rotulo: #9a8fb8;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--santos {
+html.tabuleiro-tema--santos :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--santos {
   --cel: #e9f6ff;
   --cel-borda: #cde8fb;
   --agua: #fff1c9;
@@ -427,7 +440,8 @@ button {
   --tab-rotulo: #2e8b57;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--halloween {
+html.tabuleiro-tema--halloween :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--halloween {
   --cel: #2a1838;
   --cel-borda: #3d2452;
   --agua: #3b2350;
@@ -441,7 +455,8 @@ button {
   --tab-rotulo: #b48fd6;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--natal {
+html.tabuleiro-tema--natal :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--natal {
   --cel: #f4faf6;
   --cel-borda: #d6eadc;
   --agua: #cfe8d6;
@@ -455,7 +470,8 @@ button {
   --tab-rotulo: #e9f5ec;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--anonovo {
+html.tabuleiro-tema--anonovo :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--anonovo {
   --cel: #15153a;
   --cel-borda: #26265a;
   --agua: #1f1f4d;
@@ -469,7 +485,8 @@ button {
   --tab-rotulo: #e8c766;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--lava {
+html.tabuleiro-tema--lava :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--lava {
   --cel: #3a1f1a;
   --cel-borda: #5a2c22;
   --agua: #6b2a16;
@@ -483,7 +500,8 @@ button {
   --tab-rotulo: #e0a283;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--neon {
+html.tabuleiro-tema--neon :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--neon {
   --cel: #140f24;
   --cel-borda: #2a1f4a;
   --agua: #1c1438;
@@ -497,7 +515,8 @@ button {
   --tab-rotulo: #7a6bd6;
 }
 
-:is(html, .tema-preview).tabuleiro-tema--ouro {
+html.tabuleiro-tema--ouro :is(.board, .jogo-alvo),
+.tema-preview.tabuleiro-tema--ouro {
   --cel: #1a1a1a;
   --cel-borda: #2e2a1f;
   --agua: #2a2618;
