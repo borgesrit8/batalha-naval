@@ -5,7 +5,7 @@ import { useSom } from "../../hooks/useSom";
 
 // Ecrã final: comportamento visual distinto para vitória vs derrota,
 // resumo da partida e lista de conquistas desbloqueadas nesta sessão.
-function GameOver({ vencedor, nomeJogador, jogadas, precisao, novasConquistas, onJogarNovamente, onMenu, textoDerrota }) {
+function GameOver({ vencedor, nomeJogador, jogadas, precisao, moedasGanhas, novasConquistas, onJogarNovamente, onMenu, textoDerrota }) {
   const venceu = vencedor === nomeJogador;
   const tocar = useSom();
   const t = useT();
@@ -39,6 +39,10 @@ function GameOver({ vencedor, nomeJogador, jogadas, precisao, novasConquistas, o
           <div className="game-over__stat">
             <strong>{precisao}%</strong>
             <span>{t("fim.precisao")}</span>
+          </div>
+          <div className="game-over__stat">
+            <strong>+{moedasGanhas}</strong>
+            <span>{t("fim.moedas")}</span>
           </div>
         </div>
 

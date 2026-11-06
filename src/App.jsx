@@ -26,6 +26,8 @@ import {
   CUSTO_DISPARO,
   RADAR_SEGUNDOS,
   DIFICULDADES,
+  MOEDAS_POR_VITORIA,
+  MOEDAS_POR_DERROTA,
   RECUPERAR_COMBUSTIVEL_ACERTO,
   CUSTO_TEMPO_ESGOTADO,
 } from "./constants";
@@ -424,6 +426,7 @@ function JogoInterno() {
 
       {fase === FASES.MENU && (
         <MainMenu
+          moedas={estatisticas.moedas}
           onJogar={() => setFase(FASES.SETUP)}
           onMultiplayer={handleAbrirMultiplayer}
           onDefinicoes={() => abrirOverlay(FASES.DEFINICOES)}
@@ -532,6 +535,7 @@ function JogoInterno() {
           nomeJogador={nomeJogador}
           jogadas={jogadas}
           precisao={calcularPrecisao(tirosJogador, tirosCertosJogador)}
+          moedasGanhas={vencedor === nomeJogador ? MOEDAS_POR_VITORIA : MOEDAS_POR_DERROTA}
           novasConquistas={novasConquistas}
           textoDerrota={motivoDerrota === "combustivel" ? t("fim.semCombustivel") : undefined}
           onJogarNovamente={() => setFase(FASES.SETUP)}

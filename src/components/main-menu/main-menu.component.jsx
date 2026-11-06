@@ -6,6 +6,7 @@ import { useSom } from "../../hooks/useSom";
 import { useAuth } from "../../context/AuthContext";
 
 function MainMenu({
+  moedas,
   onJogar,
   onMultiplayer,
   onDefinicoes,
@@ -32,8 +33,9 @@ function MainMenu({
 
   return (
     <div id="main-menu" className="animar-entrada">
-      {/* Barra de topo: conta */}
+      {/* Barra de topo: moedas e conta */}
       <div className="main-menu__topo">
+        <div className="main-menu__moedas">🪙 {moedas}</div>
         <button
           className="main-menu__conta"
           onClick={comSom(utilizador ? handleSair : onConta)}

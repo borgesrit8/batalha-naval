@@ -215,6 +215,7 @@ function OnlineGame({ codigo, sou, onSair }) {
         textoDerrota={t("fim.perdesteOnline", nomeVencedor)}
         jogadas={meusTiros.length}
         precisao={calcularPrecisao(meusTiros.length, acertos)}
+        moedasGanhas={sala.vencedor === meuUid ? 20 : 5}
         novasConquistas={[]}
         onJogarNovamente={onSair}
         onMenu={onSair}
