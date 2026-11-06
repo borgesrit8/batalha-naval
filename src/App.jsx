@@ -18,6 +18,7 @@ import {
 } from "./components";
 import Decoracao from "./components/decoracao/decoracao.component";
 import Dica from "./components/dica/dica.component";
+import Loja from "./components/loja/loja.component";
 import { DefinicoesProvider, useDefinicoes } from "./context/DefinicoesContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { carregarProgresso, guardarProgresso, fundirProgresso } from "./services/progresso";
@@ -30,6 +31,8 @@ import {
   MOEDAS_POR_DERROTA,
   RECUPERAR_COMBUSTIVEL_ACERTO,
   CUSTO_TEMPO_ESGOTADO,
+  MOEDAS_POR_DIA,
+  TEMAS_TABULEIRO,
 } from "./constants";
 import { useT } from "./i18n";
 import {
@@ -44,6 +47,7 @@ import {
   contarNavios,
   listaNavios,
   tamanhoNavio,
+  saldoMoedas,
 } from "./utils/tabuleiro";
 import { useEstatisticas } from "./hooks/useEstatisticas";
 import { useConquistas } from "./hooks/useConquistas";
@@ -59,6 +63,7 @@ const FASES = {
   FIM: "fim",
   DEFINICOES: "definicoes",
   ESTATISTICAS: "estatisticas",
+  LOJA: "loja",
   CONQUISTAS: "conquistas",
   COMO_JOGAR: "comoJogar",
   AUTH: "auth",
@@ -82,6 +87,25 @@ function JogoInterno() {
   const t = useT();
 
   const [fase, setFase] = useState(FASES.SPLASH);
+
+  // Prémio diário: +1 moeda na primeira vez que se abre o jogo em cada dia
+  useEffect(() => {
+    const d = new Date();
+    const hoje = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    definirEstatisticas((atual) =>
+      atual.ultimoPremioDiario === hoje
+        ? atual
+        : { ...atual, moedas: (atual.moedas || 0) + MOEDAS_POR_DIA, ultimoPremioDiario: hoje }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function comprarTema(id) {
+    definirEstatisticas((atual) => {
+      const comprados = atual.temasComprados || [];
+      return comprados.includes(id) ? atual : { ...atual, temasComprados: [...comprados, id] };
+    });
+  }
   const faseAnteriorMenu = useRef(FASES.MENU);
   const progressoCarregadoRef = useRef(null);
 
@@ -426,7 +450,8 @@ function JogoInterno() {
 
       {fase === FASES.MENU && (
         <MainMenu
-          moedas={estatisticas.moedas}
+          moedas={saldoMoedas(estatisticas, TEMAS_TABULEIRO)}
+          onLoja={() => abrirOverlay(FASES.LOJA)}
           onJogar={() => setFase(FASES.SETUP)}
           onMultiplayer={handleAbrirMultiplayer}
           onDefinicoes={() => abrirOverlay(FASES.DEFINICOES)}
@@ -446,9 +471,12 @@ function JogoInterno() {
       )}
 
       {fase === FASES.DEFINICOES && <Settings onVoltar={() => setFase(FASES.MENU)} />}
-      {fase === FASES.ESTATISTICAS && <Stats estatisticas={estatisticas} onVoltar={() => setFase(FASES.MENU)} />}
+      {fase === FASES.ESTATISTICAS && <Stats estatisticas={{ ...estatisticas, moedas: saldoMoedas(estatisticas, TEMAS_TABULEIRO) }} onVoltar={() => setFase(FASES.MENU)} />}
       {fase === FASES.CONQUISTAS && (
         <Achievements desbloqueadas={desbloqueadas} onVoltar={() => setFase(FASES.MENU)} />
+      )}
+      {fase === FASES.LOJA && (
+        <Loja estatisticas={estatisticas} onComprar={comprarTema} onVoltar={() => setFase(FASES.MENU)} />
       )}
       {fase === FASES.COMO_JOGAR && <HowToPlay onVoltar={() => setFase(FASES.MENU)} />}
 

@@ -29,7 +29,20 @@
 
 .cell--navio {
   background: var(--navio);
-  border-color: var(--navio);
+  border-color: var(--navio-borda, var(--navio));
+}
+
+/* Símbolo do tema nas casas (falha/acerto), em vez da cruz/explosão */
+.cell__simbolo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--tamanho-cell) * 0.55);
+  line-height: 1;
+  z-index: 2;
+  animation: surgir 0.3s ease both;
 }
 
 .cell--falhado {

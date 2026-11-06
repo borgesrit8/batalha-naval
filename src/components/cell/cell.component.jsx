@@ -4,7 +4,7 @@ import { useT } from "../../i18n";
 
 // Uma única célula do tabuleiro. Puramente apresentacional: recebe o
 // estado já calculado e limita-se a escolher classes/animações.
-function Cell({ cel, mostrarNavio, emRadar, afundado, onClick }) {
+function Cell({ cel, mostrarNavio, emRadar, afundado, onClick, simboloFalha, simboloAcerto }) {
   const t = useT();
   const acertou = cel.atingida && cel.navio;
   const falhou = cel.atingida && !cel.navio;
@@ -31,8 +31,12 @@ function Cell({ cel, mostrarNavio, emRadar, afundado, onClick }) {
       aria-label={rotulo}
     >
       {falhou && <span className="cell__splash" aria-hidden="true" />}
-      {falhou && <span className="cell__cruz" aria-hidden="true" />}
-      {acertou && (
+      {falhou && !simboloFalha && <span className="cell__cruz" aria-hidden="true" />}
+      {falhou && simboloFalha && <span className="cell__simbolo" aria-hidden="true">{simboloFalha}</span>}
+      {acertou && !afundado && simboloAcerto && (
+        <span className="cell__simbolo" aria-hidden="true">{simboloAcerto}</span>
+      )}
+      {acertou && !simboloAcerto && (
         <span className="cell__explosao" aria-hidden="true">
           <span className="cell__explosao-nucleo" />
         </span>

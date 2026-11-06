@@ -97,17 +97,45 @@ export const ESTATISTICAS_INICIAIS = {
   navioMaisRapido: null, // menor nº de jogadas numa vitória
   moedas: 0, // total de moedas ganhas (o saldo desconta os temas comprados)
   temasComprados: [],
+  ultimoPremioDiario: null, // "AAAA-MM-DD" do último dia com moeda diária
 };
 
 // Temas do tabuleiro à venda na loja (as cores estão em src/index.css).
-// O preço é em moedas; "classico" é o tema de origem, grátis.
+// preco: em moedas · categoria: separador da loja · meses: só à venda
+// nesses meses (1-12; null = sempre) · falha/acerto: símbolo nas casas
+// (null = cruz/explosão normal) · decos: bonecos à volta do tabuleiro ·
+// extra: enfeite especial no tabuleiro.
+export const CATEGORIAS_LOJA = ["criancas", "adultos", "epocas", "especiais"];
+
 export const TEMAS_TABULEIRO = [
-  { id: "classico", preco: 0 },
-  { id: "porDoSol", preco: 100 },
-  { id: "gelo", preco: 200 },
-  { id: "noite", preco: 300 },
-  { id: "lava", preco: 500 },
+  { id: "classico", preco: 0, categoria: null, meses: null },
+
+  { id: "doces", preco: 50, categoria: "criancas", meses: null, falha: "🍬", acerto: "🍭", decos: ["🧁", "🍩", "🍫", "🍦"] },
+  { id: "mar", preco: 80, categoria: "criancas", meses: null, falha: "🫧", acerto: "🐙", decos: ["🐠", "🐳", "🦀", "🐚"] },
+  { id: "unicornio", preco: 100, categoria: "criancas", meses: null, falha: "⭐", acerto: "🌈", decos: ["🦄", "☁️", "🌈", "✨"] },
+  { id: "dinos", preco: 100, categoria: "criancas", meses: null, falha: "🦴", acerto: "🦖", decos: ["🦕", "🌋", "🌴", "🥚"] },
+
+  { id: "porDoSol", preco: 100, categoria: "adultos", meses: null },
+  { id: "naval", preco: 150, categoria: "adultos", meses: null },
+  { id: "noite", preco: 200, categoria: "adultos", meses: null },
+  { id: "minimal", preco: 250, categoria: "adultos", meses: null },
+  { id: "mapa", preco: 300, categoria: "adultos", meses: null },
+
+  { id: "carnaval", preco: 150, categoria: "epocas", meses: [2], falha: "🎊", acerto: "🎭", decos: ["🎭", "🪅", "🎉", "🎊"], extra: "confete" },
+  { id: "namorados", preco: 100, categoria: "epocas", meses: [2], falha: "💗", acerto: "💘", decos: ["💘", "🌹", "🧸", "💌"] },
+  { id: "pascoa", preco: 100, categoria: "epocas", meses: [3, 4], falha: "🥚", acerto: "🐣", decos: ["🐰", "🌷", "🧺", "🥚"] },
+  { id: "santos", preco: 150, categoria: "epocas", meses: [6], falha: "🌿", acerto: "🐟", decos: ["🎈", "🎉", "🪴", "🐟"], extra: "bandeirolas" },
+  { id: "halloween", preco: 150, categoria: "epocas", meses: [10], falha: "🦇", acerto: "🎃", decos: ["🕸️", "👻", "🎃", "🍬"] },
+  { id: "natal", preco: 150, categoria: "epocas", meses: [12], falha: "❄️", acerto: "⭐", decos: ["🔔", "🎅", "🎄", "🎁"], extra: "neve" },
+  { id: "anonovo", preco: 150, categoria: "epocas", meses: [12, 1], falha: "✨", acerto: "🎆", decos: ["🎆", "🥂", "🕛", "🎇"] },
+
+  { id: "lava", preco: 400, categoria: "especiais", meses: null },
+  { id: "neon", preco: 450, categoria: "especiais", meses: null },
+  { id: "ouro", preco: 500, categoria: "especiais", meses: null },
 ];
+
+// Moedas ganhas por abrir o jogo num novo dia
+export const MOEDAS_POR_DIA = 1;
 
 // Conquistas desbloqueáveis. `verificar` recebe as estatísticas ATUALIZADAS
 // (depois do jogo terminar) e devolve true se a conquista deve desbloquear.

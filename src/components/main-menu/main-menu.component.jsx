@@ -14,6 +14,7 @@ function MainMenu({
   onConquistas,
   onComoJogar,
   onConta,
+  onLoja,
 }) {
   const tocar = useSom();
   const t = useT();
@@ -35,7 +36,7 @@ function MainMenu({
     <div id="main-menu" className="animar-entrada">
       {/* Barra de topo: moedas e conta */}
       <div className="main-menu__topo">
-        <div className="main-menu__moedas">🪙 {moedas}</div>
+        <button className="main-menu__moedas" onClick={comSom(onLoja)}>🪙 {moedas}</button>
         <button
           className="main-menu__conta"
           onClick={comSom(utilizador ? handleSair : onConta)}
@@ -68,6 +69,10 @@ function MainMenu({
 
           <button className="btn btn-secundaria main-menu__botao-multiplayer" onClick={comSom(onMultiplayer)}>
             {t("menu.multiplayer")}
+          </button>
+
+          <button className="btn btn-secundaria main-menu__botao-loja" onClick={comSom(onLoja)}>
+            {t("menu.loja")}
           </button>
 
           <div className="main-menu__grelha">

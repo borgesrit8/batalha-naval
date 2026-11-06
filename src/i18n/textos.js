@@ -8,6 +8,9 @@
 // Navios femininos em PT (para concordar "afundado/afundada", "o teu/a tua")
 const NAVIOS_FEMININOS_PT = ["Fragata"];
 
+const MESES_PT = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+const MESES_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 const pt = {
   comum: {
     voltar: "← Voltar",
@@ -42,15 +45,33 @@ const pt = {
 
   loja: {
     titulo: "Loja de temas",
-    descricao: "Usa as moedas que ganhas a jogar para mudar as cores do tabuleiro.",
+    descricao: "Usa as moedas que ganhas a jogar para mudar o tabuleiro.",
     saldo: (n) => `🪙 ${n} moedas`,
     temas: {
       classico: "Clássico",
+      doces: "Doces",
+      mar: "Fundo do mar",
+      unicornio: "Unicórnio",
+      dinos: "Dinossauros",
       porDoSol: "Pôr do sol",
-      gelo: "Gelo",
+      naval: "Naval",
       noite: "Noite",
+      minimal: "Minimalista",
+      mapa: "Mapa antigo",
+      carnaval: "Carnaval",
+      namorados: "Dia dos Namorados",
+      pascoa: "Páscoa",
+      santos: "Santos Populares",
+      halloween: "Halloween",
+      natal: "Natal",
+      anonovo: "Passagem de ano",
       lava: "Lava",
+      neon: "Néon",
+      ouro: "Ouro",
     },
+    categorias: { criancas: "Crianças", adultos: "Adultos", epocas: "Épocas", especiais: "Especiais" },
+    premioDiario: (n) => `🎁 Prémio diário: +${n} moeda por cada dia que entras!`,
+    disponivel: (meses) => "🔒 Volta em " + meses.map((m) => MESES_PT[m - 1]).join(" e "),
     gratis: "Grátis",
     usar: "Usar",
     emUso: "✓ Em uso",
@@ -328,11 +349,29 @@ const en = {
     saldo: (n) => `🪙 ${n} coins`,
     temas: {
       classico: "Classic",
+      doces: "Sweets",
+      mar: "Under the sea",
+      unicornio: "Unicorn",
+      dinos: "Dinosaurs",
       porDoSol: "Sunset",
-      gelo: "Ice",
+      naval: "Navy",
       noite: "Night",
+      minimal: "Minimal",
+      mapa: "Old map",
+      carnaval: "Carnival",
+      namorados: "Valentine's Day",
+      pascoa: "Easter",
+      santos: "Summer festival",
+      halloween: "Halloween",
+      natal: "Christmas",
+      anonovo: "New Year's Eve",
       lava: "Lava",
+      neon: "Neon",
+      ouro: "Gold",
     },
+    categorias: { criancas: "Kids", adultos: "Adults", epocas: "Seasons", especiais: "Special" },
+    premioDiario: (n) => `🎁 Daily prize: +${n} coin for every day you play!`,
+    disponivel: (meses) => "🔒 Back in " + meses.map((m) => MESES_EN[m - 1]).join(" & "),
     gratis: "Free",
     usar: "Use",
     emUso: "✓ In use",

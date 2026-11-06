@@ -2,17 +2,21 @@ import React, { useMemo } from "react";
 import "./board.css";
 import Cell from "../cell/cell.component";
 import { navioAfundadoNestaCelula } from "../../utils/tabuleiro";
+import { useTemaTabuleiro } from "../../hooks/useTemaTabuleiro";
+import EnfeitesTema from "./enfeites-tema.component";
 
 // Renderiza um tabuleiro 10x10 completo, com letras/números de referência
 // (como num jogo de batalha naval "a sério") e delega cada célula ao
 // componente <Cell>, que decide a sua própria aparência/animação.
 function Board({ titulo, tabuleiro, mostrarNavios, radarArea, onCellClick, destacado, calcularAfundado = navioAfundadoNestaCelula }) {
   const letras = useMemo(() => "ABCDEFGHIJ".split(""), []);
+  const tema = useTemaTabuleiro();
 
   return (
     <div className={"board-wrapper" + (destacado ? " board-wrapper--destaque" : "")}>
       {titulo && <h3 className="board-wrapper__titulo">{titulo}</h3>}
-      <div className="board vidro">
+      <div className={"board vidro" + (tema.decos ? " board--com-bonecos" : "")}>
+        <EnfeitesTema tema={tema} />
         <div className="board__linha board__linha--cabecalho">
           <div className="board__celula-vazia" />
           {letras.map((letra) => (
@@ -44,6 +48,8 @@ function Board({ titulo, tabuleiro, mostrarNavios, radarArea, onCellClick, desta
                   mostrarNavio={mostrarNavios}
                   emRadar={emRadar}
                   afundado={afundado}
+                  simboloFalha={tema.falha}
+                  simboloAcerto={tema.acerto}
                   onClick={
                     onCellClick && !cel.atingida ? () => onCellClick(l, c) : null
                   }
