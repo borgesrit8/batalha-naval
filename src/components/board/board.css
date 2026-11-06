@@ -72,10 +72,10 @@
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
 }
 
-.enfeites__boneco--0 { left: -6px; top: -16px; }
-.enfeites__boneco--1 { right: -6px; top: -16px; }
-.enfeites__boneco--2 { left: -6px; bottom: -14px; }
-.enfeites__boneco--3 { right: -6px; bottom: -14px; }
+.enfeites__boneco--0 { left: 2px; top: -16px; }
+.enfeites__boneco--1 { right: 2px; top: -16px; }
+.enfeites__boneco--2 { left: 2px; bottom: -14px; }
+.enfeites__boneco--3 { right: 2px; bottom: -14px; }
 
 .enfeites--pequeno .enfeites__boneco {
   font-size: 20px;
