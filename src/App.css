@@ -23,7 +23,7 @@
   justify-items: center;
   gap: 12px;
   padding: 12px 12px 8px;
-  --tamanho-cell-jogo: clamp(20px, min(8vw, 4.4dvh), 38px);
+  --tamanho-cell-jogo: clamp(18px, min(calc((100vw - 110px) / 10), 4.4dvh), 38px);
 }
 
 #jogo > .jogo__topo {

@@ -1,5 +1,5 @@
 .cell {
-  --tamanho-cell: clamp(24px, 8.6vw, 34px);
+  --tamanho-cell: clamp(18px, calc((100vw - 120px) / 10), 34px);
   width: var(--tamanho-cell);
   height: var(--tamanho-cell);
   border-radius: 6px;
@@ -42,7 +42,12 @@
   font-size: calc(var(--tamanho-cell) * 0.55);
   line-height: 1;
   z-index: 2;
-  animation: surgir 0.3s ease both;
+  animation: simboloPop 0.3s ease both;
+}
+
+@keyframes simboloPop {
+  from { transform: scale(0.3); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .cell--falhado {

@@ -50,7 +50,7 @@
 }
 
 .board__linha--cabecalho .board__rotulo {
-  width: clamp(24px, 8.6vw, 34px);
+  width: clamp(18px, calc((100vw - 120px) / 10), 34px);
 }
 
 /* ---------- Enfeites dos temas da loja ---------- */
@@ -72,10 +72,10 @@
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
 }
 
-.enfeites__boneco--0 { left: 2px; top: -16px; }
-.enfeites__boneco--1 { right: 2px; top: -16px; }
-.enfeites__boneco--2 { left: 2px; bottom: -14px; }
-.enfeites__boneco--3 { right: 2px; bottom: -14px; }
+.enfeites__boneco--0 { left: 4px; top: -16px; }
+.enfeites__boneco--1 { right: 4px; top: -16px; }
+.enfeites__boneco--2 { left: 4px; bottom: -14px; }
+.enfeites__boneco--3 { right: 4px; bottom: -14px; }
 
 .enfeites--pequeno .enfeites__boneco {
   font-size: 20px;
@@ -88,8 +88,8 @@
 
 .enfeites__neve {
   position: absolute;
-  left: -3px;
-  right: -3px;
+  left: 0;
+  right: 0;
   top: -8px;
   height: 16px;
   background: #ffffff;

@@ -70,7 +70,7 @@
 
 /* Células um pouco menores em ecrãs baixos, para sobrar espaço aos controlos */
 .setup--compacto {
-  --tamanho-cell-setup: clamp(22px, min(7.9vw, 4.4dvh), 34px);
+  --tamanho-cell-setup: clamp(18px, min(calc((100vw - 110px) / 10), 4.4dvh), 34px);
 }
 
 .setup--compacto .cell {

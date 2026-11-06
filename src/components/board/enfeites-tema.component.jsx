@@ -3,12 +3,12 @@ import React from "react";
 const CORES_BANDEIROLAS = ["#e74c3c", "#f1c40f", "#2ecc71", "#3498db", "#9b59b6", "#e67e22"];
 const CONFETES = [
   [3, 8, "#f1c40f"],
-  [97, 14, "#2ecc71"],
-  [1, 55, "#e74c3c"],
-  [98, 62, "#3498db"],
-  [50, 1, "#ff7ad9"],
-  [28, 99, "#f1c40f"],
-  [74, 98, "#2ecc71"],
+  [94, 14, "#2ecc71"],
+  [2, 55, "#e74c3c"],
+  [94, 62, "#3498db"],
+  [50, 2, "#ff7ad9"],
+  [28, 96, "#f1c40f"],
+  [74, 96, "#2ecc71"],
 ];
 
 // Bonecos nos cantos do tabuleiro e enfeites especiais (neve, bandeirolas,
